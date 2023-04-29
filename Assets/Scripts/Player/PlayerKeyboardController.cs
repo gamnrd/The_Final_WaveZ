@@ -10,6 +10,7 @@ public class PlayerKeyboardController : MonoBehaviour
     float hInput, vInput;
     private Rigidbody rb;
     public GameObject pauseMenu;
+    private PlayerHealth playerHealth;
 
 
 
@@ -19,6 +20,7 @@ public class PlayerKeyboardController : MonoBehaviour
         //Get player rigid body and set drag
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        playerHealth = GetComponent<PlayerHealth>();
         //rb.drag = 5;
     }
 
@@ -26,7 +28,7 @@ public class PlayerKeyboardController : MonoBehaviour
     //Fixed update is called before Update
     private void FixedUpdate()
     {
-        if (PlayerHealth.Instance.alive == true)
+        if (playerHealth.GetPlayerAlive())
         {
             MovePlayer();
             FaceMouse();
@@ -37,7 +39,7 @@ public class PlayerKeyboardController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerHealth.Instance.alive == true)
+        if (playerHealth.GetPlayerAlive())
         {
             PlayerInput();
         }

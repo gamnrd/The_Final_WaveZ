@@ -96,9 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48de0db29b114f045b27e262d4236ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AutoDestoryTime: 1
   lifetime: 1
-  blood: {fileID: 52728485410541498, guid: 50850d4ddd21d964a8a07cc094d60c0e, type: 3}
-  spark: {fileID: 52728485410541498, guid: 8942e9a85433ab94ea63e7aa23c7ac97, type: 3}
+  bulletSpeed: 30
 --- !u!54 &1433790173541976587
 Rigidbody:
   m_ObjectHideFlags: 0

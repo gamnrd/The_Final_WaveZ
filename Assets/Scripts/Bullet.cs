@@ -2,32 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : AutoDestroyPoolableObject
 {
-    public float lifetime;
-    public GameObject blood, spark;
+    //[SerializeField] private float lifetime;
+    [SerializeField] private float bulletSpeed = 30;
+    private Rigidbody rb;
 
-    private void Start()
+    private void Awake()
     {
-        Destroy(gameObject, lifetime);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Destroy(gameObject);
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        
-        if (other.gameObject.tag == "Zombie")
+        //If the bullet hits a zombie spawn blood
+        if (other.gameObject.CompareTag("Zombie"))
         {
-            Destroy(Instantiate(blood, transform.position, transform.rotation), 0.5f);
+            Destroy(Instantiate(Resources.Load("FX_BloodSplat"), transform.position, transform.rotation), 0.5f);
         }
+        //Else spawn sparks
         else
         {
-            Destroy(Instantiate(spark, transform.position, transform.rotation), 0.5f);
+            Destroy(Instantiate(Resources.Load("FX_Spark"), transform.position, transform.rotation), 0.5f);
         }
-        Destroy(gameObject);
+        
+        Disable();
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        //Move bullet
+        rb.velocity = (GameObject.Find("FirePoint").GetComponent<Transform>().forward * bulletSpeed);
+    }
+
+    public override void OnDisable()
+    {
+        Invoke("MoveToPool", 0.1f);
+        rb.velocity = Vector3.zero;
+        base.OnDisable();
+    }
+
+    public void MoveToPool()
+    {
+        transform.SetParent(GameObject.Find("Bullet Pool").transform);
     }
 }

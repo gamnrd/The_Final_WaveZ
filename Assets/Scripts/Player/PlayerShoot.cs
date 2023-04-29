@@ -2,52 +2,65 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public GameObject weapon;
-    public GameObject bulletObj;
-    public Transform bulletSpawn;
-    public GameObject gunFlash;
-    public float bulletSpeed;
-    public FixedJoystick aimJoystick;
-
+    //public GameObject weapon;
+    [Header("Bullet")]
+    //[SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private GameObject bulletSpawnPoint;
+    [SerializeField] private GameObject gunFlash;
+    
+    [Header("Touch Controls")]
+    [SerializeField] private bool usingTouch;
+    [SerializeField] private FixedJoystick aimJoystick;
     //Weapon Delays
     private float timer;
-    private float pistolFireRate = 7.5f;
     private float cooldown = 0.5f;
 
     //Sound
-    public AudioSource src;
-    public AudioClip shoot;
+    [Header("Sound")]
+    [SerializeField] private AudioClip shoot;
+    private AudioSource src;
+
+    //Object Pool
+    [SerializeField] public ObjectPool bulletPool;
+
+    private PlayerHealth playerHealth;
+
+    private void Awake()
+    {
+        bulletPool = ObjectPool.CreateInstance(bulletPrefab, 25);
+    }
 
     private void Start()
     {
+        src = GetComponent<AudioSource>();
+        bulletSpawnPoint = GameObject.Find("FirePoint");
+        playerHealth = GetComponent<PlayerHealth>();
         timer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //If mouse is clicked, player is alive and the game is not paused
-        /*if (Input.GetMouseButtonDown(0) && PlayerHealth.Instance.alive && UIController.Instance.getPaused() == false)
+        if (usingTouch)
         {
-            if (cooldown <= 0)
+            //Joystick fireing
+            if ((aimJoystick.Vertical != 0 || aimJoystick.Horizontal != 0) && playerHealth.GetPlayerAlive() && !UIController.Instance.getPaused())
             {
-                Shoot();
-                cooldown = delay;
-            }   
+                timer -= Time.deltaTime;
+                if (timer <= 0)
+                {
+                    Shoot();
+                    timer = cooldown;
+                }
+            }
         }
-        if (cooldown > 0)
+        else
         {
-            cooldown--;
-        }*/
-
-        //Joystick fireing
-        if ((aimJoystick.Vertical != 0 || aimJoystick.Horizontal != 0) && PlayerHealth.Instance.alive && UIController.Instance.getPaused() == false)
-        {
-            timer -= Time.deltaTime;
-            if (timer <= 0)
+            //If mouse is clicked, player is alive and the game is not paused
+            if (Input.GetMouseButtonDown(0) && playerHealth.GetPlayerAlive() && !UIController.Instance.getPaused())
             {
                 Shoot();
-                timer = cooldown;
             }
         }
     }
@@ -60,11 +73,17 @@ public class PlayerShoot : MonoBehaviour
         src.PlayOneShot(shoot, 0.075f);
 
         //Gun flash
-        Instantiate(gunFlash, bulletSpawn.position, bulletSpawn.rotation, bulletSpawn);
+        Instantiate(Resources.Load("GunFlash"), bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation, bulletSpawnPoint.transform);
 
         //Bullet
-        GameObject bullet = Instantiate(bulletObj, bulletSpawn.position, bulletSpawn.rotation);
-        Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
-        bulletRB.AddForce(bulletSpawn.forward * bulletSpeed, ForceMode.Impulse);
+        PoolableObject instance = bulletPool.GetObject();
+        if (instance != null)
+        {
+            instance.transform.SetParent(bulletSpawnPoint.transform, true);
+            instance.transform.position = bulletSpawnPoint.transform.position;
+            instance.transform.rotation = bulletSpawnPoint.transform.rotation;
+        }
+
+        //Instantiate(Resources.Load("Bullet"), bulletSpawnPoint.position, bulletSpawnPoint.rotation);
     }
 }

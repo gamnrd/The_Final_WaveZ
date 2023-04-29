@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4037355694517924064}
-  - component: {fileID: 4037355694517924072}
   - component: {fileID: 1916187824745006811}
-  - component: {fileID: 4037355694517924073}
   - component: {fileID: 4037355694517924078}
   - component: {fileID: 4037355694517924077}
   - component: {fileID: 4037355694517924076}
@@ -42,22 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4037355694517924072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4037355694517924066}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21c8d5ac9b8a9d240beb8879cf122d49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movSpeed: 8000
-  direction: {fileID: 4037355695228680205}
-  moveJoystick: {fileID: 0}
-  aimJoystick: {fileID: 0}
 --- !u!114 &1916187824745006811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,23 +54,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movSpeed: 0
   direction: {fileID: 0}
+  hInput: 0
+  vInput: 0
+  usingTouch: 0
   moveJoystick: {fileID: 0}
   aimJoystick: {fileID: 0}
-  pauseMenu: {fileID: 0}
---- !u!114 &4037355694517924073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4037355694517924066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb59c9f1aecd83d4a917262053aa31dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movSpeed: 6000
-  direction: {fileID: 4037355695228680205}
   pauseMenu: {fileID: 0}
 --- !u!114 &4037355694517924078
 MonoBehaviour:
@@ -110,6 +80,7 @@ MonoBehaviour:
   aimJoystick: {fileID: 0}
   src: {fileID: 4037355694517924075}
   shoot: {fileID: 8300000, guid: cc49b6b0f66fa53478c8835c6defd62f, type: 3}
+  usingTouch: 0
 --- !u!114 &4037355694517924077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +127,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
 --- !u!82 &4037355694517924075
 AudioSource:
   m_ObjectHideFlags: 0

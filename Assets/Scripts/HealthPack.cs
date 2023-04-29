@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class HealthPack : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private int healAmount = 3;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        //If collided with a health pack
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<PlayerHealth>().HealPlayer(healAmount);
+            Destroy(gameObject);
+        }
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2209662863628107559
 Transform:
@@ -43,6 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40801cbad10f5be41aa7bf741e6016cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToSpawn: 3
-  spawnRange: 0
+  spawnCountDown: 3
+  timer: 0
+  spawnRange: 70
   distanceToPlayer: 0
+  spawnerPosRange: 5
+  checkerPrefab: {fileID: 0}

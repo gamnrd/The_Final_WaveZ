@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
-    public Transform SpawnLocation;
+    [SerializeField] private Transform respawnLocation;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Entered");
-            RespawnController.Instance.setCheckpoint(SpawnLocation);
+            RespawnController.Instance.setCheckpoint(respawnLocation);
         }
     }
 }

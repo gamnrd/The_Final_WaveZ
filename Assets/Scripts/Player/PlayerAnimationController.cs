@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    public Animator anim;
+    [SerializeField] private Animator anim;
     public static PlayerAnimationController Instance;
     private Rigidbody rb;
+    [SerializeField] private float speedF;
 
 
     private void Awake()
@@ -27,8 +28,8 @@ public class PlayerAnimationController : MonoBehaviour
     void PlayerWalkAnimations()
     {
         //Check for player movement
-        float speedF;
         speedF = ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) / 2);
+
         //If speed is not above threashold, set to zero
         if (speedF < 0.1f && speedF > -0.1f)
         {
@@ -41,6 +42,7 @@ public class PlayerAnimationController : MonoBehaviour
         {
             this.anim.SetFloat("Forwards_f", 1);
         }
+
         //If player is moving backwards reverse animation
         else if (((rb.velocity.x + rb.velocity.z) / 2) < -0.1)
         {
@@ -77,12 +79,14 @@ public class PlayerAnimationController : MonoBehaviour
             anim.SetBool("Shoot_b", false);
         }
     }
+
     //Set dead parameter
     public void SetDead(bool dead)
     {
         anim.SetInteger("DeathType_int", 2);
         anim.SetBool("Death_b", dead);
     }
+
     //Adjust body tilt
     public void SetBodyVert(float bodyV)
     {

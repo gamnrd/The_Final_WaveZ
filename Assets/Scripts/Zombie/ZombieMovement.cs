@@ -19,6 +19,7 @@ public class ZombieMovement : MonoBehaviour
 
     private NavMeshAgent navAgent;
     private Animator anim;
+    [SerializeField] private int skinNum;
 
     private void Awake()
     {
@@ -26,8 +27,24 @@ public class ZombieMovement : MonoBehaviour
         playerPos = GameObject.FindWithTag("Player").transform; //Get players transfor
         navAgent = this.GetComponent<NavMeshAgent>();   //Get nav mesh
         navAgent.speed = pursuitSpeed;  //Set speed when using nav mesh
-        transform.GetChild(Random.Range(0, 27)).gameObject.SetActive(true); //Spawn with random zombie skin
     }
+
+    public void OnEnable()
+    {
+        navAgent.speed = pursuitSpeed;  //Set speed when using nav mesh
+        skinNum = Random.Range(0, 27);
+        transform.GetChild(skinNum).gameObject.SetActive(true); //Spawn with random zombie skin
+    }
+
+    public void OnDisable()
+    {
+        transform.GetChild(skinNum).gameObject.SetActive(false);
+        
+        //base.OnDisable();
+        
+        
+    }
+
 
     // Update is called once per frame
     public void FixedUpdate()
@@ -44,6 +61,7 @@ public class ZombieMovement : MonoBehaviour
             //Look at and move towards player
             navAgent.enabled = true;
             navAgent.destination = new Vector3(playerPos.position.x, playerPos.position.y, playerPos.position.z);
+            transform.LookAt(navAgent.destination);
             anim.speed = 3; //Increase animation speed for run
         }
         //else if player out of range, wander around aimlessly
@@ -75,7 +93,7 @@ public class ZombieMovement : MonoBehaviour
     public void OnCollisionEnter(Collision other)
     {
         //Zombie damage
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             //damage zombie
             anim.speed = 1;
@@ -86,7 +104,7 @@ public class ZombieMovement : MonoBehaviour
             if (anim.GetBool("Attacking_b") == true)
             {
                 //Damage player
-                PlayerHealth.Instance.DamagePlayer(1);
+                other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(1);
             }
 
             //If zombie attack animation is over, set zombie to not attacking
@@ -95,7 +113,17 @@ public class ZombieMovement : MonoBehaviour
                 anim.SetBool("Attacking_b", false);
             }
             src.PlayOneShot(attack, 0.5f);
-            
+        }
+
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //If zombie spawns in a no spawn area, move back to the spawner
+        if (other.gameObject.CompareTag("NoSpawn"))
+        {
+            transform.localPosition = Vector3.zero;
         }
     }
 }

@@ -7,9 +7,11 @@ public class LevelController : MonoBehaviour
     private int playerScore;
     public GameObject pauseMenu;
 
+
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             LevelComplete();
         }
@@ -17,7 +19,7 @@ public class LevelController : MonoBehaviour
 
     private void LevelComplete()
     {
-        /*
+        
         playerScore = UIController.Instance.GetScore();
         int highscore = PlayerPrefs.GetInt("HighScore", 0);
         if (playerScore > highscore)
@@ -26,6 +28,6 @@ public class LevelController : MonoBehaviour
         }
         pauseMenu.SetActive(true);
         UIController.Instance.Win();
-        Time.timeScale = 0;*/
+        Time.timeScale = 0;
     }
 }

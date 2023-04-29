@@ -6,11 +6,11 @@ public class WaveManager : MonoBehaviour
 {
     public static WaveManager Instance;
 
-    [SerializeField] private int waveNum { get; set; }
-    [SerializeField] private int waveMax { get; set; }
-    [SerializeField] private int enemiesKilled { get; set; }
-    [SerializeField] private int enemiesSpawned { get; set; }
-    [SerializeField] private int spawnMax { get; set; }
+    [SerializeField] public int waveNum { get; set; }
+    [SerializeField] public int waveMax { get; set; }
+    [SerializeField] public int enemiesKilled { get; set; }
+    [SerializeField] public int enemiesSpawned { get; set; }
+    [SerializeField] public int spawnMax { get; set; }
 
     private int msgTimer = 4;
     private float timer;

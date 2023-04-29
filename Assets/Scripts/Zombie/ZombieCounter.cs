@@ -5,14 +5,18 @@ using UnityEngine;
 public class ZombieCounter : MonoBehaviour
 {
     public static ZombieCounter Instance;
-    [SerializeField]private int zombieCount = 0;
-    [SerializeField]private int zombiesSpawned = 0;
-    [SerializeField]int zombieMax { get; set; }
+    [SerializeField] private int zombieCount = 0;
+    [SerializeField] private int zombiesSpawned = 0;
+    [SerializeField] private int zombieMax = 100;
+
+    //Object Pool
+    public ObjectPool zombiePool;
+    [SerializeField] private ZombieHealth zombiePrefab;
 
     private void Awake()
     {
         Instance = this;
-        zombieMax = 100;
+        zombiePool = ObjectPool.CreateInstance(zombiePrefab, zombieMax);
         //TODO set max each wave, keep track of total zombies spawned, not present zombies
     }
 

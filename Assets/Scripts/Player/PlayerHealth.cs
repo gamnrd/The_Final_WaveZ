@@ -7,15 +7,20 @@ public class PlayerHealth : MonoBehaviour
 {
     //Health
     [Header("Health")]
-    public int curHealth;
-    public int maxHealth = 10;
+    [SerializeField] private int curHealth;
+    [SerializeField] private int maxHealth = 10;
+
+    [Header("Lives")]
+    [SerializeField] private int curLives;
+    [SerializeField] private int maxLives = 3;
 
     //Damage
-    private bool canBeHurt = true;
-    private float hitTimer = 0;
+    [Header("Damage")]
+    [SerializeField] private bool canBeHurt = true;
+    [SerializeField] private float hitTimer = 0;
 
     //Respawn
-    public bool alive { get; set; }
+    [SerializeField] private bool isAlive;
     private float respawnTimer = 0;
 
     //Fx
@@ -24,25 +29,29 @@ public class PlayerHealth : MonoBehaviour
 
     //Sound
     [Header("Sound")]
-    public AudioSource src;
-    public AudioClip die;
-    public AudioClip hurt;
+    [SerializeField] private AudioClip die;
+    [SerializeField] private AudioClip hurt;
+    private AudioSource src;
 
-    public static PlayerHealth Instance;
+    //Animator
+    private PlayerAnimationController anim;
+
 
     private void Awake()
     {
-        Instance = this;
         //Get max health based on difficulty
         maxHealth = PlayerPrefs.GetInt("PlayerHealth", 10);
         curHealth = maxHealth;
+        curLives = maxLives;
+        anim = GetComponent<PlayerAnimationController>();
+        src = GetComponent<AudioSource>();
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        alive = true;
+        isAlive = true;
         UIController.Instance.UpdateBars(curHealth, maxHealth);
     }
 
@@ -50,7 +59,7 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
         //If player cannot be hurt and is alive, don't countdown
-        if (canBeHurt == false && alive == true)
+        if (canBeHurt == false && isAlive == true)
         {
             hitTimer -= Time.deltaTime;
             if (hitTimer <= 0)
@@ -61,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
 
 
         //If player has died set countdown for time to respawn
-        if (alive == false)
+        if (isAlive == false)
         {
             respawnTimer -= Time.deltaTime;
             if (respawnTimer <= 0)
@@ -71,21 +80,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    //Return whether the player is alive or not
+    public bool GetPlayerAlive()
     {
-        //If collided with a health pack
-        if (other.gameObject.tag == "HealthPack")
-        {
-            HealPlayer();
-            Destroy(other.gameObject);
-        }
+        return isAlive;
     }
 
     //Heal player
-    private void HealPlayer()
+    public void HealPlayer(int healAmount)
     {
         //raise health
-        curHealth += 3;
+        curHealth += healAmount;
         //check that health is not over max
         if (curHealth > maxHealth)
         {
@@ -100,7 +105,7 @@ public class PlayerHealth : MonoBehaviour
     public void DamagePlayer(int damageAmount)
     {
         //If the zombie is attacking, player can be hurt and player is not dead
-        if (canBeHurt && alive)
+        if (canBeHurt && isAlive)
         {
             src.PlayOneShot(hurt, 0.7f);
             canBeHurt = false;
@@ -109,13 +114,21 @@ public class PlayerHealth : MonoBehaviour
             curHealth -= damageAmount;
             UIController.Instance.UpdateBars(curHealth, maxHealth);
 
-            //TODO track total damage taken per wave for money
-        }
-
-        //If health is zero, kill player
-        if (curHealth <= 0)
-        {
-            KillPlayer();
+            //If health is zero, kill player
+            if (curHealth <= 0)
+            {
+                curLives--;
+                UIController.Instance.livesTxt.text = (curLives + " Lives").ToString();
+                if (curLives > 0)
+                {
+                    KillPlayer();
+                }
+                else if (curLives <= 0)
+                {
+                    curLives = 0;
+                    GameOver();
+                }
+            }
         }
     }
 
@@ -130,11 +143,9 @@ public class PlayerHealth : MonoBehaviour
             Destroy(Instantiate(deathEffect, transform.position, Quaternion.Euler(0, 0, 90)), 0.5f);
         }
         //Play death animation
-        PlayerAnimationController.Instance.SetDead(true);
-        alive = false;
+        anim.SetDead(true);
+        isAlive = false;
         respawnTimer = 5;
-
-        //TODO Track times died per wave for money
     }
 
 
@@ -144,11 +155,16 @@ public class PlayerHealth : MonoBehaviour
         //Move player to last checkpoint
         RespawnController.Instance.RespawnPlayer();
         //Turn off death animation
-        PlayerAnimationController.Instance.SetDead(false);
+        anim.SetDead(false);
         //Set alive
-        alive = true;
+        isAlive = true;
         //Reset Health
         curHealth = maxHealth;
         UIController.Instance.UpdateBars(curHealth, maxHealth);
+    }
+
+    public void GameOver()
+    {
+        Application.Quit();
     }
 }

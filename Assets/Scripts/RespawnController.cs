@@ -5,19 +5,21 @@ using UnityEngine;
 public class RespawnController : MonoBehaviour
 {
     private Transform respawnPoint;
-    public Transform player;
-    public Transform playerins;
-    public Transform StartPoint;
+    private Transform player;
+    private Transform playerBody;
+    [SerializeField] private Transform StartPoint;
     public static RespawnController Instance;
-
-    private void Start()
-    {
-        respawnPoint = StartPoint;
-    }
 
     private void Awake()
     {
         Instance = this;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerBody = player.GetChild(0).transform;
+    }
+
+    private void Start()
+    {
+        respawnPoint = StartPoint;
     }
 
     public void setCheckpoint(Transform newCheckPoint)
@@ -28,6 +30,6 @@ public class RespawnController : MonoBehaviour
     public void RespawnPlayer()
     {
         player.transform.position = respawnPoint.transform.position;
-        playerins.transform.position = respawnPoint.transform.position;
+        playerBody.transform.position = respawnPoint.transform.position;
     }
 }

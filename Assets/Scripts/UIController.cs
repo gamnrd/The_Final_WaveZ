@@ -11,7 +11,9 @@ public class UIController : MonoBehaviour
     [Header("Game UI")]
     public Image healthImg;
     public Text healthTxt;
-    public int score = 0;
+    public int score = 0;    
+    public Text livesTxt;
+    public int lives;
     public Text scoreTxt;
     public Text waveTxt;
     public Text winScore;

@@ -11,7 +11,7 @@ public class PlayerJoystickController : MonoBehaviour
     public FixedJoystick moveJoystick;
     public FixedJoystick aimJoystick;
     private Rigidbody rb;
-
+    private PlayerHealth playerHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -20,12 +20,13 @@ public class PlayerJoystickController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         rb.drag = 5;
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     //Fixed update is called before Update
     private void FixedUpdate()
     {
-        if (PlayerHealth.Instance.alive == true)
+        if (playerHealth.GetPlayerAlive())
         {
             MovePlayer();
             FaceJoystick();
@@ -36,7 +37,7 @@ public class PlayerJoystickController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerHealth.Instance.alive == true)
+        if (playerHealth.GetPlayerAlive())
         {
             PlayerInput();
         }

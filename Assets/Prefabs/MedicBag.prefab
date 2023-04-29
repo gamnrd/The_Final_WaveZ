@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5640272769333824668}
   - component: {fileID: 5640272769332696730}
   - component: {fileID: 5665765100117878518}
+  - component: {fileID: 1110508110302718933}
   m_Layer: 0
   m_Name: MedicBag
   m_TagString: HealthPack
@@ -91,12 +92,25 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5640272769330510270}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43145372095353758, guid: ddfaf619da0e5f74b94f5150b9292550, type: 2}
+--- !u!114 &1110508110302718933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640272769330510270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21301ce6d5d761c4c80aa097e6e1176a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 3
 --- !u!1 &7193150669405621881
 GameObject:
   m_ObjectHideFlags: 0

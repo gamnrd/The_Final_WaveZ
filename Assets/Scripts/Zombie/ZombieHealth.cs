@@ -2,16 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieHealth : MonoBehaviour
+public class ZombieHealth : DestroyPoolableObject
 {
     public int totalHealth = 3;
     public GameObject deathEffect;
-    public GameObject zombieCount;
     public Transform deathEffectPos;
     //Sound
     public AudioSource src;
     public AudioClip die;
 
+    public override void OnEnable()
+    {
+        totalHealth = PlayerPrefs.GetInt("ZombieHealth", 3);
+        GetComponent<ZombieMovement>().enabled = true;
+        base.OnEnable();
+    }
+    public override void OnDisable()
+    {
+        Invoke("MoveToPool", 0.1f);
+        GetComponent<ZombieMovement>().enabled = false;
+        base.OnDisable();
+    }
 
     private void Awake()
     {
@@ -21,10 +32,9 @@ public class ZombieHealth : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         //Zombie damage
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.CompareTag("Bullet"))
         {
             //damage zombie
-            Destroy(other.gameObject);
             DamageEnemy(1);
         }
     }
@@ -41,11 +51,19 @@ public class ZombieHealth : MonoBehaviour
             {
                 src.PlayOneShot(die, 0.7f);
                 UIController.Instance.AdjustScore(100);
-                ZombieCounter.Instance.decrementCount();
-                WaveManager.Instance.ZombieKilled();
+                //ZombieCounter.Instance.decrementCount();
+                //WaveManager.Instance.ZombieKilled();
                 Destroy(Instantiate(deathEffect, deathEffectPos.position, deathEffectPos.rotation), 0.5f);
             }
-            Destroy(gameObject);
+            //Destroy(gameObject);
+
+            //GetComponent<ZombieMovement>().enabled = false;
+            Disable();
         }
+    }
+
+    public void MoveToPool()
+    {
+        transform.SetParent(GameObject.Find("Zombie Pool").transform);
     }
 }

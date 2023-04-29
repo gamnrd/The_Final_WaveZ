@@ -16,20 +16,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private FixedJoystick aimJoystick;
 
     private Rigidbody rb;
-    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] public GameObject pauseMenu;
+    private PlayerHealth playerHealth;
 
 
-    
+    private void Awake()
+    {
+        playerHealth = GetComponent<PlayerHealth>();
+        rb = GetComponent<Rigidbody>();
+    }
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //Get player rigid body and set drag
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        rb.drag = 5;
         if (usingTouch)
         {
             movSpeed = 8000;
@@ -44,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     //Fixed update is called before Update
     private void FixedUpdate()
     {
-        if (PlayerHealth.Instance.alive == true)
+        if (playerHealth.GetPlayerAlive())
         {
             MovePlayer();
             if (usingTouch)
@@ -62,9 +63,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerHealth.Instance.alive == true)
+        if (playerHealth.GetPlayerAlive())
         {
             playerInput();
+            
         }
     }
 
