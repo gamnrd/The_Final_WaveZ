@@ -5,68 +5,75 @@ public class ZombieMovement : MonoBehaviour
 {
     //Pursue player
     private Transform playerPos;
+    [SerializeField] private CheckPlayerNear isPlayerNear;
     public float walkSpeed = 1;
     public float pursuitSpeed = 5;
-    public float pursuitRange = 20;
 
     //Walk aimlesly
-    private float counter;
+    private float counter = 0;
     private Vector3 direction;
 
     //Sound
     public AudioSource src;
     public AudioClip attack;
 
+    private int skinNum;
+
     private NavMeshAgent navAgent;
     private Animator anim;
-    [SerializeField] private int skinNum;
 
     private void Awake()
     {
+        isPlayerNear = GetComponentInChildren<CheckPlayerNear>();
         anim = GetComponent<Animator>();    //Get animator
         playerPos = GameObject.FindWithTag("Player").transform; //Get players transfor
-        navAgent = this.GetComponent<NavMeshAgent>();   //Get nav mesh
+        navAgent = GetComponent<NavMeshAgent>();   //Get nav mesh
+
+    }
+
+    private void Start()
+    {
+        //pursuiSpeed = playerprefs zomspeed
         navAgent.speed = pursuitSpeed;  //Set speed when using nav mesh
     }
 
     public void OnEnable()
     {
-        navAgent.speed = pursuitSpeed;  //Set speed when using nav mesh
-        skinNum = Random.Range(0, 27);
+        //navAgent.speed = pursuitSpeed;  //Set speed when using nav mesh
+        isPlayerNear.isPlayerNear = false;
+        skinNum = Random.Range(0, 26);
         transform.GetChild(skinNum).gameObject.SetActive(true); //Spawn with random zombie skin
     }
 
     public void OnDisable()
     {
         transform.GetChild(skinNum).gameObject.SetActive(false);
-        
-        //base.OnDisable();
-        
-        
+        isPlayerNear.isPlayerNear = false;
     }
 
-
+    
     // Update is called once per frame
-    public void FixedUpdate()
+    public void Update()
     {
         Move();
     }
 
     public void Move()
     {
-        counter -= Time.deltaTime;
+        
         //If the player is within range, move towards them
-        if (Vector3.Distance(transform.position, playerPos.position) < pursuitRange)
+        if (isPlayerNear.isPlayerNear)
         {
             //Look at and move towards player
             navAgent.enabled = true;
-            navAgent.destination = new Vector3(playerPos.position.x, playerPos.position.y, playerPos.position.z);
+            navAgent.destination = playerPos.position; // new Vector3(playerPos.position.x, playerPos.position.y, playerPos.position.z);
             transform.LookAt(navAgent.destination);
             anim.speed = 3; //Increase animation speed for run
         }
         //else if player out of range, wander around aimlessly
-        else if (Vector3.Distance(transform.position, playerPos.position) > pursuitRange)
+        else
         {
+            counter -= Time.deltaTime;
             anim.speed = 1.5f; //Decrease animation speed for walk
             navAgent.enabled = false;   //Nav mesh only used when pursuing player
             //After countdown change direction

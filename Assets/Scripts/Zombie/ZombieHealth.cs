@@ -50,7 +50,7 @@ public class ZombieHealth : DestroyPoolableObject
             if (deathEffect != null)
             {
                 src.PlayOneShot(die, 0.7f);
-                UIController.Instance.AdjustScore(100);
+                GameUI.Instance.AdjustScore(100);
                 //ZombieCounter.Instance.decrementCount();
                 //WaveManager.Instance.ZombieKilled();
                 Destroy(Instantiate(deathEffect, deathEffectPos.position, deathEffectPos.rotation), 0.5f);
@@ -58,7 +58,7 @@ public class ZombieHealth : DestroyPoolableObject
             //Destroy(gameObject);
 
             //GetComponent<ZombieMovement>().enabled = false;
-            Disable();
+            Invoke("Disable", 0.1f);
         }
     }
 

@@ -73,18 +73,15 @@ public class PlayerKeyboardController : MonoBehaviour
         //Pause Game
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            //If not paused, pause
-            if (pauseMenu.activeSelf == false)
-            {
-                Time.timeScale = 0;
-                pauseMenu.SetActive(true);
-                UIController.Instance.SetScreens("pause");
-            }
             //If paused, unpause
-            else if (pauseMenu.activeSelf == true)
+            if (PauseScreen.Instance.GetPaused())
             {
-                Time.timeScale = 1;
-                pauseMenu.SetActive(false);
+                PauseScreen.Instance.ResumeGame();
+            }
+            //If unpaused, pause
+            else
+            {
+                PauseScreen.Instance.PauseGame();
             }
         }
     }

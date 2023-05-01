@@ -1,3 +1,49 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:54947de82c30b9ca75f61f2b8f3fc60ce15222950dce822597b160e4660fe489
-size 475
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - Zombie
+  - Bullet
+  - PauseMenu
+  - HealthPack
+  - NoSpawn
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Ground
+  - Water
+  - UI
+  - Bullet
+  - Zombie
+  - Player
+  - FX
+  - MiniMap
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

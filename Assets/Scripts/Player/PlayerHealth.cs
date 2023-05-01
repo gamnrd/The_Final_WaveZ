@@ -13,6 +13,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Lives")]
     [SerializeField] private int curLives;
     [SerializeField] private int maxLives = 3;
+    [SerializeField] private GameObject pauseMenu;
 
     //Damage
     [Header("Damage")]
@@ -52,7 +53,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         isAlive = true;
-        UIController.Instance.UpdateBars(curHealth, maxHealth);
+        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
     }
 
     // Update is called once per frame
@@ -70,7 +71,7 @@ public class PlayerHealth : MonoBehaviour
 
 
         //If player has died set countdown for time to respawn
-        if (isAlive == false)
+        if (isAlive == false && curLives > 0)
         {
             respawnTimer -= Time.deltaTime;
             if (respawnTimer <= 0)
@@ -97,7 +98,7 @@ public class PlayerHealth : MonoBehaviour
             curHealth = maxHealth;
         }
         //update health UI
-        UIController.Instance.UpdateBars(curHealth, maxHealth);
+        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
     }
 
 
@@ -112,22 +113,15 @@ public class PlayerHealth : MonoBehaviour
             hitTimer = 3f;
             //damage player
             curHealth -= damageAmount;
-            UIController.Instance.UpdateBars(curHealth, maxHealth);
+            GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
 
             //If health is zero, kill player
             if (curHealth <= 0)
             {
                 curLives--;
-                UIController.Instance.livesTxt.text = (curLives + " Lives").ToString();
-                if (curLives > 0)
-                {
-                    KillPlayer();
-                }
-                else if (curLives <= 0)
-                {
-                    curLives = 0;
-                    GameOver();
-                }
+                GameUI.Instance.UpdateLives(curLives);
+
+                KillPlayer();
             }
         }
     }
@@ -145,7 +139,15 @@ public class PlayerHealth : MonoBehaviour
         //Play death animation
         anim.SetDead(true);
         isAlive = false;
-        respawnTimer = 5;
+        if (curLives > 0)
+        {
+            respawnTimer = 5;
+        }
+        else if (curLives <= 0)
+        {
+            curLives = 0;
+            GameOver();
+        }
     }
 
 
@@ -160,11 +162,12 @@ public class PlayerHealth : MonoBehaviour
         isAlive = true;
         //Reset Health
         curHealth = maxHealth;
-        UIController.Instance.UpdateBars(curHealth, maxHealth);
+        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
     }
 
     public void GameOver()
     {
-        Application.Quit();
+        GameOverScreen.Instance.GameOver();
+        //Time.timeScale = 0;
     }
 }

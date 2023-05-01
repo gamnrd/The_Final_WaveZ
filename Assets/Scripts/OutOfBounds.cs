@@ -12,4 +12,13 @@ public class OutOfBounds : MonoBehaviour
             RespawnController.Instance.RespawnPlayer();
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //If a zombies box colider colides with the trigger
+        if ((other.gameObject.CompareTag("Zombie")) && other == other.gameObject.GetComponent<BoxCollider>())
+        {
+            other.transform.localPosition = Vector3.zero;
+        }
+    }
 }

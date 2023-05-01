@@ -38,13 +38,13 @@ public class Bullet : AutoDestroyPoolableObject
 
     public override void OnDisable()
     {
-        Invoke("MoveToPool", 0.1f);
+        //Invoke("MoveToPool", 0.1f);
         rb.velocity = Vector3.zero;
         base.OnDisable();
     }
 
     public void MoveToPool()
     {
-        transform.SetParent(GameObject.Find("Bullet Pool").transform);
+        //transform.SetParent(GameObject.Find("Bullet Pool").transform);
     }
 }

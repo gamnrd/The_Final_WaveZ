@@ -28,7 +28,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Awake()
     {
-        bulletPool = ObjectPool.CreateInstance(bulletPrefab, 25);
+        bulletPool = ObjectPool.CreateInstance(bulletPrefab, 10);
     }
 
     private void Start()
@@ -42,25 +42,28 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (usingTouch)
+        if (/*!PauseScreen.Instance.GetPaused() &&*/ playerHealth.GetPlayerAlive())
         {
-            //Joystick fireing
-            if ((aimJoystick.Vertical != 0 || aimJoystick.Horizontal != 0) && playerHealth.GetPlayerAlive() && !UIController.Instance.getPaused())
+            if (usingTouch)
             {
-                timer -= Time.deltaTime;
-                if (timer <= 0)
+                //Joystick fireing
+                if ((aimJoystick.Vertical != 0 || aimJoystick.Horizontal != 0))
                 {
-                    Shoot();
-                    timer = cooldown;
+                    timer -= Time.deltaTime;
+                    if (timer <= 0)
+                    {
+                        Shoot();
+                        timer = cooldown;
+                    }
                 }
             }
-        }
-        else
-        {
-            //If mouse is clicked, player is alive and the game is not paused
-            if (Input.GetMouseButtonDown(0) && playerHealth.GetPlayerAlive() && !UIController.Instance.getPaused())
+            else
             {
-                Shoot();
+                //If mouse is clicked, player is alive and the game is not paused
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Shoot();
+                }
             }
         }
     }
@@ -79,7 +82,7 @@ public class PlayerShoot : MonoBehaviour
         PoolableObject instance = bulletPool.GetObject();
         if (instance != null)
         {
-            instance.transform.SetParent(bulletSpawnPoint.transform, true);
+            //instance.transform.SetParent(bulletSpawnPoint.transform, true);
             instance.transform.position = bulletSpawnPoint.transform.position;
             instance.transform.rotation = bulletSpawnPoint.transform.rotation;
         }

@@ -33,7 +33,10 @@ public class UIController : MonoBehaviour
     public GameObject aboutMainScreen;
 
     [Header("Game Win")]
-    public GameObject WinScreen;
+    public GameObject WinScreen;    
+    
+    [Header("Game Over")]
+    public GameObject LoseScreen;
 
     [Header("Touch Controls")]
     [SerializeField] public bool usingTouch;
@@ -174,12 +177,16 @@ public class UIController : MonoBehaviour
     public void Win()
     {
         winScore.text = "Your Score: " + score;
-        winHighScore.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0); ;
+        winHighScore.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0);
         SetScreens("win");
+    }    
+    
+    public void Lose()
+    {
+        SetScreens("lose");
     }
 
     #endregion MainMenu
-
 
     public void SetScreens(string screenName)
     {
@@ -189,6 +196,7 @@ public class UIController : MonoBehaviour
         aboutMainScreen.SetActive(false);
         DifficultyScreen.SetActive(false);
         WinScreen.SetActive(false);
+        LoseScreen.SetActive(false);
 
 
         switch (screenName)
@@ -218,10 +226,14 @@ public class UIController : MonoBehaviour
             case "win":
                 WinScreen.SetActive(true);
                 break;
+            case "lose":
+                LoseScreen.SetActive(true);
+                break;
 
             //unpause
             default:
                 break;
         }
     }
+
 }

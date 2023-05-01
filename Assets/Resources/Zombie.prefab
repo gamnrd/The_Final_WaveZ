@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194074542650535}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DeathFXSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 29
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &509194075630534835
 GameObject:
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630948257}
   - component: {fileID: 509194075625421651}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_AirportSecurity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630972559}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: UpperLeg_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630944271}
   - component: {fileID: 509194075625415605}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_FootballPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625415605
 SkinnedMeshRenderer:
@@ -281,7 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630978111}
   - component: {fileID: 509194075625345969}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Industrial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625345969
 SkinnedMeshRenderer:
@@ -385,7 +385,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630896883}
-  m_Layer: 0
+  - component: {fileID: 3231803066201582114}
+  - component: {fileID: 9048468405081280170}
+  - component: {fileID: 4016472707004630670}
+  m_Layer: 7
   m_Name: Hips_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,8 +410,51 @@ Transform:
   - {fileID: 509194075630972559}
   - {fileID: 509194075630949835}
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 28
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3231803066201582114
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509194075630538125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 20
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &9048468405081280170
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509194075630538125}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3
+--- !u!114 &4016472707004630670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509194075630538125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3950661064e05a944b22b804fe01ad14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 20
+  isPlayerNear: 0
 --- !u!1 &509194075630540145
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630867549}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Foot_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630893435}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shoulder_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630920171}
   - component: {fileID: 509194075625343795}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Shopkeeper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -500,7 +546,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 23
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625343795
 SkinnedMeshRenderer:
@@ -585,7 +631,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630974539}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowerLeg_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,7 +662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630924823}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LowerLeg_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630962403}
   - component: {fileID: 509194075625395761}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Cheerleader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -743,111 +789,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.36837792, y: 0.28206795, z: -0.07679978}
     m_Extent: {x: 1.4135954, y: 1.4024396, z: 0.43398383}
   m_DirtyAABB: 0
---- !u!1 &509194075630551469
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 509194075630992627}
-  - component: {fileID: 509194075625403253}
-  m_Layer: 0
-  m_Name: SA_Zombie_Grandma
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &509194075630992627
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509194075630551469}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &509194075625403253
-SkinnedMeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509194075630551469}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 3
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 472a4c2afde17a24ca60cd83bff77f96, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  serializedVersion: 2
-  m_Quality: 0
-  m_UpdateWhenOffscreen: 0
-  m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300020, guid: dbbc53a6bc8f5c64bb234194ce1380aa, type: 3}
-  m_Bones:
-  - {fileID: 509194075630896883}
-  - {fileID: 509194075630972559}
-  - {fileID: 509194075630924823}
-  - {fileID: 509194075630899161}
-  - {fileID: 509194075630923845}
-  - {fileID: 509194075630949835}
-  - {fileID: 509194075630974539}
-  - {fileID: 509194075630867549}
-  - {fileID: 509194075630989955}
-  - {fileID: 509194075630864015}
-  - {fileID: 509194075630973359}
-  - {fileID: 509194075630912549}
-  - {fileID: 509194075630893435}
-  - {fileID: 509194075630992173}
-  - {fileID: 509194075630868093}
-  - {fileID: 509194075630969783}
-  - {fileID: 509194075630903341}
-  - {fileID: 509194075630883857}
-  - {fileID: 509194075630924527}
-  - {fileID: 509194075630981785}
-  - {fileID: 509194075630897455}
-  - {fileID: 509194075630863655}
-  m_BlendShapeWeights: []
-  m_RootBone: {fileID: 509194075630896883}
-  m_AABB:
-    m_Center: {x: -0.72347695, y: 0.0000017285347, z: 0.0016335845}
-    m_Extent: {x: 1.1409872, y: 1.6845057, z: 0.35555044}
-  m_DirtyAABB: 0
 --- !u!1 &509194075630551589
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630864015}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spine_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -889,7 +830,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630907347}
   - component: {fileID: 509194075625307923}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Hobo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -908,7 +849,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625307923
 SkinnedMeshRenderer:
@@ -993,7 +934,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630981785}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hand_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1024,7 +965,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630978969}
   - component: {fileID: 509194075625299265}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Pimp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1043,7 +984,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 16
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625299265
 SkinnedMeshRenderer:
@@ -1129,7 +1070,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630961215}
   - component: {fileID: 509194075625323277}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Businessman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1233,7 +1174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630912549}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chest_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1273,7 +1214,7 @@ GameObject:
   - component: {fileID: 509194075630608655}
   - component: {fileID: 509194075630608654}
   - component: {fileID: -5876733262170564479}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Zombie
   m_TagString: Zombie
   m_Icon: {fileID: 0}
@@ -1296,12 +1237,10 @@ Transform:
   - {fileID: 509194075630905049}
   - {fileID: 509194075630961215}
   - {fileID: 509194075630962403}
-  - {fileID: 509194075630992145}
   - {fileID: 509194075630909377}
   - {fileID: 509194075630894449}
   - {fileID: 509194075630883509}
   - {fileID: 509194075630944271}
-  - {fileID: 509194075630992627}
   - {fileID: 509194075630907347}
   - {fileID: 509194075630978111}
   - {fileID: 509194075630925247}
@@ -1321,6 +1260,7 @@ Transform:
   - {fileID: 509194075630876919}
   - {fileID: 509194075630896883}
   - {fileID: 509194074542650535}
+  - {fileID: 2157213480273005509}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1339,13 +1279,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Foot_Right_jnt'\n\tTransform 'LowerLeg_Left_jnt'\n\tTransform
-    'LowerLeg_Right_jnt'\n\tTransform 'UpperLeg_Left_jnt'\n\tTransform 'Foot_Left_jnt'\n\tTransform
-    'Spine_jnt'\n\tTransform 'UpperLeg_Right_jnt'\n\tTransform 'Hips_jnt'\n\tTransform
-    'Foot_Right_jnt'\n\tTransform 'LowerLeg_Left_jnt'\n\tand more ...\n\tFrom animation
-    clip 'mixamo.com'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -1391,9 +1325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf98d576fff4c0640a127117ff6af3ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBeingUsed: 0
   totalHealth: 3
   deathEffect: {fileID: 52728485410541498, guid: 0ffd58a2442d69a48a07f6eea6d8cbc6, type: 3}
-  zombieCount: {fileID: 2209662863628107561, guid: ef2d115c063bfc74f93ee4e3b3f852d0, type: 3}
   deathEffectPos: {fileID: 509194074542650535}
   src: {fileID: -5876733262170564479}
   die: {fileID: 8300000, guid: fc4f2ad9ab5ec5b4dbcee1111c78396c, type: 3}
@@ -1409,9 +1343,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55af1ff99a689a4f8ed6b4d3139072a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerNear: {fileID: 0}
   walkSpeed: 1
   pursuitSpeed: 5
-  pursuitRange: 20
   src: {fileID: -5876733262170564479}
   attack: {fileID: 8300000, guid: c39371bea067dfe45bf9b593b55b42a1, type: 3}
 --- !u!195 &509194075630608654
@@ -1421,10 +1355,10 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509194075630608641}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 5
+  m_Speed: 3
   m_Acceleration: 5
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1541,7 +1475,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630949835}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: UpperLeg_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1563,111 +1497,6 @@ Transform:
   m_Father: {fileID: 509194075630896883}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &509194075630614715
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 509194075630992145}
-  - component: {fileID: 509194075625407153}
-  m_Layer: 0
-  m_Name: SA_Zombie_Clown
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &509194075630992145
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509194075630614715}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &509194075625407153
-SkinnedMeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509194075630614715}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 3
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a4e0e781815064b4db59980b78af2175, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  serializedVersion: 2
-  m_Quality: 0
-  m_UpdateWhenOffscreen: 0
-  m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300010, guid: dbbc53a6bc8f5c64bb234194ce1380aa, type: 3}
-  m_Bones:
-  - {fileID: 509194075630896883}
-  - {fileID: 509194075630972559}
-  - {fileID: 509194075630924823}
-  - {fileID: 509194075630899161}
-  - {fileID: 509194075630923845}
-  - {fileID: 509194075630949835}
-  - {fileID: 509194075630974539}
-  - {fileID: 509194075630867549}
-  - {fileID: 509194075630989955}
-  - {fileID: 509194075630864015}
-  - {fileID: 509194075630973359}
-  - {fileID: 509194075630912549}
-  - {fileID: 509194075630893435}
-  - {fileID: 509194075630992173}
-  - {fileID: 509194075630868093}
-  - {fileID: 509194075630969783}
-  - {fileID: 509194075630903341}
-  - {fileID: 509194075630883857}
-  - {fileID: 509194075630924527}
-  - {fileID: 509194075630981785}
-  - {fileID: 509194075630897455}
-  - {fileID: 509194075630863655}
-  m_BlendShapeWeights: []
-  m_RootBone: {fileID: 509194075630896883}
-  m_AABB:
-    m_Center: {x: -0.6822316, y: 0.0000017285347, z: 0.01531902}
-    m_Extent: {x: 1.0997417, y: 1.6845057, z: 0.4270743}
-  m_DirtyAABB: 0
 --- !u!1 &509194075630617229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,7 +1507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630920801}
   - component: {fileID: 509194075625320361}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Prostitute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1697,7 +1526,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 18
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625320361
 SkinnedMeshRenderer:
@@ -1782,7 +1611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630903341}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shoulder_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1814,7 +1643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630905049}
   - component: {fileID: 509194075625356749}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Bellhop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1918,7 +1747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630899161}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Foot_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1950,7 +1779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630924579}
   - component: {fileID: 509194075625379541}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Santa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1969,7 +1798,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 22
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625379541
 SkinnedMeshRenderer:
@@ -2054,7 +1883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630989955}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Toe_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2085,7 +1914,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630979065}
   - component: {fileID: 509194075625295025}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Roadworker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2104,7 +1933,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 19
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625295025
 SkinnedMeshRenderer:
@@ -2190,7 +2019,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630894449}
   - component: {fileID: 509194075625329203}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_FarmersDaughter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2209,7 +2038,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625329203
 SkinnedMeshRenderer:
@@ -2295,7 +2124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630876919}
   - component: {fileID: 509194075625355887}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Trucker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2314,7 +2143,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 27
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625355887
 SkinnedMeshRenderer:
@@ -2399,7 +2228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630863655}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2430,7 +2259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630986683}
   - component: {fileID: 509194075625416407}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Soldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2449,7 +2278,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 24
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625416407
 SkinnedMeshRenderer:
@@ -2535,7 +2364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630962327}
   - component: {fileID: 509194075625406001}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Prisoner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2554,7 +2383,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 17
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625406001
 SkinnedMeshRenderer:
@@ -2640,7 +2469,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630909377}
   - component: {fileID: 509194075625342899}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Farmer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2659,7 +2488,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625342899
 SkinnedMeshRenderer:
@@ -2745,7 +2574,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630891457}
   - component: {fileID: 509194075625395217}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Runner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2764,7 +2593,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 21
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625395217
 SkinnedMeshRenderer:
@@ -2850,7 +2679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630975355}
   - component: {fileID: 509194075625300537}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Pilot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2869,7 +2698,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 15
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625300537
 SkinnedMeshRenderer:
@@ -2955,7 +2784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630949403}
   - component: {fileID: 509194075625324223}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_AirportWorker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3060,7 +2889,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630985203}
   - component: {fileID: 509194075625310343}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Mountie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3079,7 +2908,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 14
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625310343
 SkinnedMeshRenderer:
@@ -3165,7 +2994,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630879125}
   - component: {fileID: 509194075625377799}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Streetman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3184,7 +3013,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 25
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625377799
 SkinnedMeshRenderer:
@@ -3269,7 +3098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630973359}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spine_jnt 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3301,7 +3130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630925089}
   - component: {fileID: 509194075625407507}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Robber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3320,7 +3149,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 20
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625407507
 SkinnedMeshRenderer:
@@ -3405,7 +3234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630897455}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Neck_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3436,7 +3265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630992173}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Arm_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3468,7 +3297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630925247}
   - component: {fileID: 509194075625334313}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Mechanic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3487,7 +3316,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625334313
 SkinnedMeshRenderer:
@@ -3573,7 +3402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630907575}
   - component: {fileID: 509194075625345075}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Tourist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3592,7 +3421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 26
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625345075
 SkinnedMeshRenderer:
@@ -3677,7 +3506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630969783}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hand_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3707,7 +3536,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630924527}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Forearm_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3739,7 +3568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509194075630883509}
   - component: {fileID: 509194075625337865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SA_Zombie_Firefighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3758,7 +3587,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 509194075630894731}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &509194075625337865
 SkinnedMeshRenderer:
@@ -3843,7 +3672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630883857}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Arm_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3874,7 +3703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630923845}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Toe_Left_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3904,7 +3733,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 509194075630868093}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Forearm_Right_jnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3926,3 +3755,65 @@ Transform:
   m_Father: {fileID: 509194075630992173}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &8901336162351177323
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 509194075630894731}
+    m_Modifications:
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_RootOrder
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959515633430239374, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+      propertyPath: m_Name
+      value: MiniMapMarker
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+--- !u!4 &2157213480273005509 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7379165783816705454, guid: c84fe69a3ca0699478ccbd6d7d9ffa25, type: 3}
+  m_PrefabInstance: {fileID: 8901336162351177323}
+  m_PrefabAsset: {fileID: 0}
