@@ -1,72 +1,170 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+//Requires the Inputcontroller class
+[RequireComponent(typeof(InputController))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float movSpeed;
-    [SerializeField] private Transform direction;
-    [SerializeField] private float hInput, vInput;
-
-    [Header("Touch Controls")]
-    [SerializeField] public bool usingTouch;
-    [SerializeField] private FixedJoystick moveJoystick;
-    [SerializeField] private FixedJoystick aimJoystick;
-
     private Rigidbody rb;
-    [SerializeField] public GameObject pauseMenu;
+    [SerializeField] private bool isGrounded =true;
+    [SerializeField] private LayerMask groundLayers;
+    Vector3 movement;
+
+    float hInput, vInput;
+    public FixedJoystick moveJoystick;
+
+    private Camera playerCamera;
+
+
+    public float GroundedOffset = -0.14f;
+    public float GroundedRadius = 0.28f;
+    private float groundTimer = 0;
+
+    private InputController input;
+
+    //Aim mouse
+    private Ray ray;
+    Plane ground = new Plane(Vector3.up, Vector3.zero);
+    float rayLength;
+    Vector3 facing;
+    Vector3 aimDirection;
+    Transform pos;
+
     private PlayerHealth playerHealth;
+
 
 
     private void Awake()
     {
         playerHealth = GetComponent<PlayerHealth>();
         rb = GetComponent<Rigidbody>();
+        playerCamera = Camera.main;
+        input = GetComponent<InputController>();
+        pos = transform;
     }
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        if (usingTouch)
-        {
-            movSpeed = 8000;
-        }
-        else
-        {
-            movSpeed = 6000;
-        }
+        GameUI.Instance.ToggleTouchControls(input.platform == Platform.Mobile);
     }
 
-
-    //Fixed update is called before Update
-    private void FixedUpdate()
+    // Update is called once per frame
+    void FixedUpdate()
     {
-        if (playerHealth.GetPlayerAlive())
+        //If player is not alive, disable movement
+        if (!playerHealth.GetPlayerAlive()) return;
+
+        //Controller
+        if (input.platform == Platform.Console)
         {
-            MovePlayer();
-            if (usingTouch)
+            if (input.joystickAim.x != 0 || input.joystickAim.y != 0)
             {
-                FaceJoystick();
+                AimJoystick();
+            }
+
+            if (input.move.x != 0 || input.move.y !=0)
+            {
+                MovePlayer(input.move.x, input.move.y);
+            }
+        }        
+        
+
+
+        //Keyboard and mouse
+        if (input.platform == Platform.PC)
+        {
+            AimMouse();
+            if (input.move.x != 0 || input.move.y != 0)
+            {
+                MovePlayer(input.move.x, input.move.y);
+            }
+        }        
+        
+
+
+        //Touch Controls
+        if (input.platform == Platform.Mobile)
+        {
+            hInput = moveJoystick.Horizontal;
+            vInput = moveJoystick.Vertical;
+            
+            if (input.joystickAim.x != 0 || input.joystickAim.y != 0)
+            {
+                AimJoystick();
+            }
+
+            if (hInput != 0 || vInput != 0)
+            {
+                MovePlayer(hInput, vInput);
+            }
+        }        
+        
+
+
+        //Keyboard and mouse
+        if (input.platform == Platform.Web)
+        {
+            AimMouse();
+            if (input.move.x != 0 || input.move.y != 0)
+            {
+                MovePlayer(input.move.x, input.move.y);
+            }
+        }
+
+
+        //Controller or touch controls
+        /*if (input.platform == Platform.Console || input.platform == Platform.Mobile)
+        {
+            if (input.joystickAim.x == 0 && input.joystickAim.y == 0)
+            {
+                MovePlayer(input.move.x, input.move.y);
             }
             else
             {
-                FaceMouse();
+                MovePlayerWithAim();
             }
+        }*/
+        //Using Mouse and keyboard
+        /*
+        if (input.platform == Platform.PC || input.platform == Platform.Web)
+        {
+            //FaceMouse();
+            MovePlayerWithAim();
+        }
+        */
+        groundTimer -= Time.deltaTime;
+        if (groundTimer <= 0)
+        {
+            OnGround();
+            groundTimer = 0.25f;
+        }
+
+    }
+
+    private void AimJoystick()
+    {
+        aimDirection = new Vector3(input.joystickAim.x * (-1), 0f, input.joystickAim.y * (-1));
+
+        if (aimDirection != Vector3.zero)
+        {
+            pos.rotation = Quaternion.Slerp(pos.rotation, Quaternion.LookRotation(aimDirection), 1f);
         }
     }
 
-
-    // Update is called once per frame
-    void Update()
+    private void AimMouse()
     {
-        if (playerHealth.GetPlayerAlive())
+        ray = playerCamera.ScreenPointToRay(input.mouseAim);
+
+        if (ground.Raycast(ray, out rayLength))
         {
-            playerInput();
-            
+            facing = ray.GetPoint(rayLength);
+            pos.LookAt(new Vector3(facing.x, pos.position.y, facing.z));
         }
     }
 
@@ -75,72 +173,22 @@ public class PlayerMovement : MonoBehaviour
     //Get the mouse position and have the player face it
     private void FaceMouse()
     {
-        Ray camera = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane ground = new Plane(Vector3.up, Vector3.zero);
-        float rayLength;
+        ray = playerCamera.ScreenPointToRay(input.mouseAim);
 
-        if (ground.Raycast(camera, out rayLength))
+        if (ground.Raycast(ray, out rayLength))
         {
-            Vector3 facing = camera.GetPoint(rayLength);
-            transform.LookAt(new Vector3(facing.x, transform.position.y, facing.z));
+            facing = ray.GetPoint(rayLength);
+            pos.LookAt(new Vector3(facing.x, pos.position.y, facing.z));
         }
     }
     #endregion Aim Mouse
 
-    #region Aim Joystick
-    //Get the mouse position and have the player face it
-    private void FaceJoystick()
-    {
-        //Joystick Aim
-        float aimH = aimJoystick.Horizontal;
-        float aimV = aimJoystick.Vertical;
-
-        Vector2 xy = ConvertDirection(Camera.main.transform.position, aimH, aimV);
-        Vector3 direction = new Vector3(xy.x, 0, xy.y).normalized;
-        Vector3 lookDirection = transform.position + direction;
-        transform.LookAt(lookDirection);
-    }
-
-    private Vector2 ConvertDirection(Vector3 camera, float h, float v)
-    {
-        Vector2 aimDirection = new Vector2(h, v).normalized;
-        Vector2 cameraPos = new Vector2(camera.x, camera.z);
-        Vector2 cameraToPlayer = (Vector2.zero - cameraPos).normalized;
-        float angle = Vector2.SignedAngle(cameraToPlayer, new Vector2(0, 1));
-        Vector2 finalDirection = RotateVector(aimDirection, -angle);
-        return finalDirection;
-    }
-
-    public Vector2 RotateVector(Vector2 v, float angle)
-    {
-        float radian = angle * Mathf.Deg2Rad;
-        float x = v.x * Mathf.Cos(radian) - v.y * Mathf.Sin(radian);
-        float y = v.x * Mathf.Sin(radian) + v.y * Mathf.Cos(radian);
-        return new Vector2(x, y);
-    }
-    #endregion
-
 
 
     //Get player controls
-    private void playerInput()
+    public void PauseGame(InputAction.CallbackContext context)
     {
-        //Move
-        if (usingTouch)
-        {
-            //Joystick Controls
-            hInput = moveJoystick.Horizontal * -1;
-            vInput = moveJoystick.Vertical * -1;
-        }
-        else
-        {
-            //Keyboard Controls
-            hInput = Input.GetAxisRaw("Horizontal") * -1;
-            vInput = Input.GetAxisRaw("Vertical") * -1;
-        }
-
-        //Pause Game
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (context.performed)
         {
             //If paused, unpause
             if (PauseScreen.Instance.GetPaused())
@@ -155,10 +203,96 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MovePlayer()
+    private void MovePlayer(float x, float y)
     {
-        Vector3 movement;
-        movement = new Vector3(hInput, 0.0f, vInput).normalized;
-        rb.AddForce(movement * movSpeed);
+        Vector3 currentVelocity = rb.velocity;
+        movement = new Vector3(-1 * x, 0, -1 * y);
+        if (movement != Vector3.zero)
+        {
+            movement *= movSpeed;
+            Vector3 velocityChange = (movement - currentVelocity);
+            velocityChange = new Vector3(velocityChange.x, GetGravity(), velocityChange.z);
+            rb.velocity = velocityChange;
+        }
+    }
+
+    private void MovePlayerWithAim()
+    {
+        //Controller or touch controls
+        /*if (input.platform == Platform.Console || input.platform == Platform.Mobile)
+        {
+            aimDirection = new Vector3 (input.joystickAim.x * (-1) , 0f, input.joystickAim.y * (-1));
+
+            if (aimDirection != Vector3.zero)
+            {
+                pos.rotation = Quaternion.Slerp(pos.rotation, Quaternion.LookRotation(aimDirection), 1f);
+            }
+        }*/
+
+
+        //Using Mouse and keyboard
+        /*if (input.platform == Platform.PC || input.platform == Platform.Web)
+        {
+            ray = playerCamera.ScreenPointToRay(input.mouseAim);
+
+            if (ground.Raycast(ray, out rayLength))
+            {
+                facing = ray.GetPoint(rayLength);
+                pos.LookAt(new Vector3(facing.x, pos.position.y, facing.z));
+            }
+        }*/
+        /*
+        Vector3 currentVelocity = rb.velocity;
+        if (input.platform == Platform.Mobile)
+        {
+            movement = new Vector3((-1) * moveJoystick.Horizontal, 0, (-1) * moveJoystick.Vertical).normalized;
+        }
+        else
+        {
+            movement = new Vector3((-1) * input.move.x, 0, (-1) * input.move.y);
+        }
+        */
+       /* if (movement != Vector3.zero)
+        {*//*
+            movement *= movSpeed;
+            Vector3 velocityChange = (movement - currentVelocity);
+            velocityChange = new Vector3(velocityChange.x, GetGravity(), velocityChange.z);
+            rb.velocity = velocityChange;*/
+       // }
+
+    }
+
+    private bool OnGround()
+    {
+        // set sphere position, with offset
+        Vector3 spherePosition = new Vector3(pos.position.x, pos.position.y - GroundedOffset,
+            pos.position.z);
+        isGrounded = Physics.CheckSphere(spherePosition, GroundedRadius, groundLayers,
+            QueryTriggerInteraction.Ignore);
+        return isGrounded;
+    }
+
+
+    private float GetGravity()
+    {
+        float y = 0f;
+
+        //If the player is on the ground don't use gravity
+        if (isGrounded)
+        {
+            y = 0f;
+        }
+        //If the player is off the ground apply gravity
+        else
+        {
+            y = -10;
+
+            //If the y velocity is positive, set it negative
+            if (y > 0f)
+            {
+                y *= -1f;
+            }
+        }
+        return y;
     }
 }

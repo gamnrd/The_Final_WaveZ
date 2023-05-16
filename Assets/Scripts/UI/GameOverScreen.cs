@@ -24,6 +24,7 @@ public class GameOverScreen : MonoBehaviour
         GameUI.Instance.SetGameUI(false);
         gameOverUI.SetActive(true);
         gameOverUI.GetComponent<Animator>().enabled = true;
+        Time.timeScale = 0.5f;
     }
 
     public void MainMenu()

@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ZombieHealth : DestroyPoolableObject
 {
     public int totalHealth = 3;
     public GameObject deathEffect;
     public Transform deathEffectPos;
+    
     //Sound
     public AudioSource src;
     public AudioClip die;
+
+    private NavMeshAgent navAgent;
 
     public override void OnEnable()
     {
@@ -27,6 +31,7 @@ public class ZombieHealth : DestroyPoolableObject
     private void Awake()
     {
         totalHealth = PlayerPrefs.GetInt("ZombieHealth", 3);
+        navAgent = GetComponent<NavMeshAgent>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -55,10 +60,8 @@ public class ZombieHealth : DestroyPoolableObject
                 //WaveManager.Instance.ZombieKilled();
                 Destroy(Instantiate(deathEffect, deathEffectPos.position, deathEffectPos.rotation), 0.5f);
             }
-            //Destroy(gameObject);
 
-            //GetComponent<ZombieMovement>().enabled = false;
-            Invoke("Disable", 0.1f);
+            Disable();
         }
     }
 

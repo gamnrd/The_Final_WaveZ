@@ -1,20 +1,20 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(InputController))]
 public class PlayerShoot : MonoBehaviour
 {
     //public GameObject weapon;
     [Header("Bullet")]
     //[SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Bullet bulletPrefab;
-    [SerializeField] private GameObject bulletSpawnPoint;
-    [SerializeField] private GameObject gunFlash;
+    [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private MeshRenderer gunFlash;
     
-    [Header("Touch Controls")]
-    [SerializeField] private bool usingTouch;
-    [SerializeField] private FixedJoystick aimJoystick;
+
     //Weapon Delays
     private float timer;
-    private float cooldown = 0.5f;
+    [SerializeField] private float fireRate = 0.25f;
 
     //Sound
     [Header("Sound")]
@@ -25,68 +25,74 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] public ObjectPool bulletPool;
 
     private PlayerHealth playerHealth;
+    private InputController input;
 
     private void Awake()
     {
         bulletPool = ObjectPool.CreateInstance(bulletPrefab, 10);
+        src = GetComponent<AudioSource>();
+        bulletSpawnPoint = GameObject.Find("FirePoint").transform;
+        playerHealth = GetComponent<PlayerHealth>();
+        gunFlash = transform.Find("GunFlash").GetComponent<MeshRenderer>();
+        input = GetComponent<InputController>();
     }
 
     private void Start()
     {
-        src = GetComponent<AudioSource>();
-        bulletSpawnPoint = GameObject.Find("FirePoint");
-        playerHealth = GetComponent<PlayerHealth>();
+
         timer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (/*!PauseScreen.Instance.GetPaused() &&*/ playerHealth.GetPlayerAlive())
+        if (PauseScreen.Instance.GetPaused() || !playerHealth.GetPlayerAlive()) return;
+
+        if (input.platform == Platform.Mobile && input.joystickAim != Vector2.zero)
         {
-            if (usingTouch)
+
+            timer -= Time.deltaTime;
+            if (timer <= 0)
             {
-                //Joystick fireing
-                if ((aimJoystick.Vertical != 0 || aimJoystick.Horizontal != 0))
-                {
-                    timer -= Time.deltaTime;
-                    if (timer <= 0)
-                    {
-                        Shoot();
-                        timer = cooldown;
-                    }
-                }
-            }
-            else
-            {
-                //If mouse is clicked, player is alive and the game is not paused
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Shoot();
-                }
+                Shoot();
+                timer = fireRate;
             }
         }
     }
 
-
-    void Shoot()
+    public void FirePressed(InputAction.CallbackContext context)
     {
+        if (context.performed) Shoot();
+    }
+
+    public void Shoot()
+    {
+        //Disable shooting when the game is paused or the player is dead
+        if (PauseScreen.Instance.GetPaused() || !playerHealth.GetPlayerAlive()) return;
+
         //Play shoot animation
         PlayerAnimationController.Instance.setShoot();
-        src.PlayOneShot(shoot, 0.075f);
+
+        if (input.platform == Platform.Mobile)
+        {
+            src.PlayOneShot(shoot, 0.025f);
+        }
+        else
+        {
+            src.PlayOneShot(shoot, 0.075f);
+        }
+        
 
         //Gun flash
-        Instantiate(Resources.Load("GunFlash"), bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation, bulletSpawnPoint.transform);
+        gunFlash.enabled = true;
 
         //Bullet
         PoolableObject instance = bulletPool.GetObject();
         if (instance != null)
         {
             //instance.transform.SetParent(bulletSpawnPoint.transform, true);
-            instance.transform.position = bulletSpawnPoint.transform.position;
-            instance.transform.rotation = bulletSpawnPoint.transform.rotation;
+            instance.transform.position = bulletSpawnPoint.position;
+            instance.transform.rotation = bulletSpawnPoint.rotation;
         }
-
-        //Instantiate(Resources.Load("Bullet"), bulletSpawnPoint.position, bulletSpawnPoint.rotation);
     }
 }

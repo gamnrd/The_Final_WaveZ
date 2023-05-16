@@ -15,18 +15,21 @@ public class Bullet : AutoDestroyPoolableObject
 
     private void OnCollisionEnter(Collision other)
     {
-        //If the bullet hits a zombie spawn blood
-        if (other.gameObject.CompareTag("Zombie"))
+        if (gameObject.activeSelf)
         {
-            Destroy(Instantiate(Resources.Load("FX_BloodSplat"), transform.position, transform.rotation), 0.5f);
+            //If the bullet hits a zombie spawn blood
+            if (other.gameObject.CompareTag("Zombie"))
+            {
+                Destroy(Instantiate(Resources.Load("FX_BloodSplat"), transform.position, transform.rotation), 0.5f);
+            }
+            //Else spawn sparks
+            else
+            {
+                Destroy(Instantiate(Resources.Load("FX_Spark"), transform.position, transform.rotation), 0.5f);
+            }
+
+            Disable();
         }
-        //Else spawn sparks
-        else
-        {
-            Destroy(Instantiate(Resources.Load("FX_Spark"), transform.position, transform.rotation), 0.5f);
-        }
-        
-        Disable();
     }
 
     public override void OnEnable()

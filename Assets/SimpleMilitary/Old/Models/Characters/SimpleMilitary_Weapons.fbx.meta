@@ -1,93 +1,239 @@
 fileFormatVersion: 2
 guid: 344a3d604644509489c062f11bbe78a5
-timeCreated: 1482033346
-licenseType: Store
 ModelImporter:
-  serializedVersion: 18
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Weapon_AssultRifle01
-    100004: Weapon_AssultRifle02
-    100006: Weapon_FlashBang
-    100008: Weapon_Grenade
-    100010: Weapon_Minigun
-    100012: Weapon_MinigunBarrel
-    100014: Weapon_Pistol
-    100016: Weapon_Rifle
-    100018: Weapon_RPG
-    100020: Weapon_Shotgun
-    100022: Weapon_SmokeBomb
-    100024: Weapon_SniperRifle
-    100026: Weapon_SubMachineGun
-    400000: //RootNode
-    400002: Weapon_AssultRifle01
-    400004: Weapon_AssultRifle02
-    400006: Weapon_FlashBang
-    400008: Weapon_Grenade
-    400010: Weapon_Minigun
-    400012: Weapon_MinigunBarrel
-    400014: Weapon_Pistol
-    400016: Weapon_Rifle
-    400018: Weapon_RPG
-    400020: Weapon_Shotgun
-    400022: Weapon_SmokeBomb
-    400024: Weapon_SniperRifle
-    400026: Weapon_SubMachineGun
-    2300000: Weapon_AssultRifle01
-    2300002: Weapon_AssultRifle02
-    2300004: Weapon_FlashBang
-    2300006: Weapon_Grenade
-    2300008: Weapon_Minigun
-    2300010: Weapon_MinigunBarrel
-    2300012: Weapon_Pistol
-    2300014: Weapon_Rifle
-    2300016: Weapon_RPG
-    2300018: Weapon_Shotgun
-    2300020: Weapon_SmokeBomb
-    2300022: Weapon_SniperRifle
-    2300024: Weapon_SubMachineGun
-    3300000: Weapon_AssultRifle01
-    3300002: Weapon_AssultRifle02
-    3300004: Weapon_FlashBang
-    3300006: Weapon_Grenade
-    3300008: Weapon_Minigun
-    3300010: Weapon_MinigunBarrel
-    3300012: Weapon_Pistol
-    3300014: Weapon_Rifle
-    3300016: Weapon_RPG
-    3300018: Weapon_Shotgun
-    3300020: Weapon_SmokeBomb
-    3300022: Weapon_SniperRifle
-    3300024: Weapon_SubMachineGun
-    4300000: Weapon_AssultRifle01
-    4300002: Weapon_AssultRifle02
-    4300004: Weapon_SubMachineGun
-    4300006: Weapon_Pistol
-    4300008: Weapon_Shotgun
-    4300010: Weapon_SniperRifle
-    4300012: Weapon_Rifle
-    4300014: Weapon_FlashBang
-    4300016: Weapon_SmokeBomb
-    4300018: Weapon_Grenade
-    4300020: Weapon_RPG
-    4300022: Weapon_Minigun
-    4300024: Weapon_MinigunBarrel
-    9500000: //RootNode
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: Weapon_AssultRifle01
+  - first:
+      1: 100004
+    second: Weapon_AssultRifle02
+  - first:
+      1: 100006
+    second: Weapon_FlashBang
+  - first:
+      1: 100008
+    second: Weapon_Grenade
+  - first:
+      1: 100010
+    second: Weapon_Minigun
+  - first:
+      1: 100012
+    second: Weapon_MinigunBarrel
+  - first:
+      1: 100014
+    second: Weapon_Pistol
+  - first:
+      1: 100016
+    second: Weapon_Rifle
+  - first:
+      1: 100018
+    second: Weapon_RPG
+  - first:
+      1: 100020
+    second: Weapon_Shotgun
+  - first:
+      1: 100022
+    second: Weapon_SmokeBomb
+  - first:
+      1: 100024
+    second: Weapon_SniperRifle
+  - first:
+      1: 100026
+    second: Weapon_SubMachineGun
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: Weapon_AssultRifle01
+  - first:
+      4: 400004
+    second: Weapon_AssultRifle02
+  - first:
+      4: 400006
+    second: Weapon_FlashBang
+  - first:
+      4: 400008
+    second: Weapon_Grenade
+  - first:
+      4: 400010
+    second: Weapon_Minigun
+  - first:
+      4: 400012
+    second: Weapon_MinigunBarrel
+  - first:
+      4: 400014
+    second: Weapon_Pistol
+  - first:
+      4: 400016
+    second: Weapon_Rifle
+  - first:
+      4: 400018
+    second: Weapon_RPG
+  - first:
+      4: 400020
+    second: Weapon_Shotgun
+  - first:
+      4: 400022
+    second: Weapon_SmokeBomb
+  - first:
+      4: 400024
+    second: Weapon_SniperRifle
+  - first:
+      4: 400026
+    second: Weapon_SubMachineGun
+  - first:
+      23: 2300000
+    second: Weapon_AssultRifle01
+  - first:
+      23: 2300002
+    second: Weapon_AssultRifle02
+  - first:
+      23: 2300004
+    second: Weapon_FlashBang
+  - first:
+      23: 2300006
+    second: Weapon_Grenade
+  - first:
+      23: 2300008
+    second: Weapon_Minigun
+  - first:
+      23: 2300010
+    second: Weapon_MinigunBarrel
+  - first:
+      23: 2300012
+    second: Weapon_Pistol
+  - first:
+      23: 2300014
+    second: Weapon_Rifle
+  - first:
+      23: 2300016
+    second: Weapon_RPG
+  - first:
+      23: 2300018
+    second: Weapon_Shotgun
+  - first:
+      23: 2300020
+    second: Weapon_SmokeBomb
+  - first:
+      23: 2300022
+    second: Weapon_SniperRifle
+  - first:
+      23: 2300024
+    second: Weapon_SubMachineGun
+  - first:
+      33: 3300000
+    second: Weapon_AssultRifle01
+  - first:
+      33: 3300002
+    second: Weapon_AssultRifle02
+  - first:
+      33: 3300004
+    second: Weapon_FlashBang
+  - first:
+      33: 3300006
+    second: Weapon_Grenade
+  - first:
+      33: 3300008
+    second: Weapon_Minigun
+  - first:
+      33: 3300010
+    second: Weapon_MinigunBarrel
+  - first:
+      33: 3300012
+    second: Weapon_Pistol
+  - first:
+      33: 3300014
+    second: Weapon_Rifle
+  - first:
+      33: 3300016
+    second: Weapon_RPG
+  - first:
+      33: 3300018
+    second: Weapon_Shotgun
+  - first:
+      33: 3300020
+    second: Weapon_SmokeBomb
+  - first:
+      33: 3300022
+    second: Weapon_SniperRifle
+  - first:
+      33: 3300024
+    second: Weapon_SubMachineGun
+  - first:
+      43: 4300000
+    second: Weapon_AssultRifle01
+  - first:
+      43: 4300002
+    second: Weapon_AssultRifle02
+  - first:
+      43: 4300004
+    second: Weapon_SubMachineGun
+  - first:
+      43: 4300006
+    second: Weapon_Pistol
+  - first:
+      43: 4300008
+    second: Weapon_Shotgun
+  - first:
+      43: 4300010
+    second: Weapon_SniperRifle
+  - first:
+      43: 4300012
+    second: Weapon_Rifle
+  - first:
+      43: 4300014
+    second: Weapon_FlashBang
+  - first:
+      43: 4300016
+    second: Weapon_SmokeBomb
+  - first:
+      43: 4300018
+    second: Weapon_Grenade
+  - first:
+      43: 4300020
+    second: Weapon_RPG
+  - first:
+      43: 4300022
+    second: Weapon_Minigun
+  - first:
+      43: 4300024
+    second: Weapon_MinigunBarrel
+  - first:
+      95: 9500000
+    second: //RootNode
+  externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
-    animationRotationError: .5
-    animationPositionError: .5
-    animationScaleError: .5
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -95,38 +241,65 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 0
     normalImportMode: 1
     tangentImportMode: 1
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human: []
     skeleton: []
-    armTwist: .5
-    foreArmTwist: .5
-    upperLegTwist: .5
-    legTwist: .5
-    armStretch: .0500000007
-    legStretch: .0500000007
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

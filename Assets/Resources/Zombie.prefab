@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3950661064e05a944b22b804fe01ad14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 20
+  radius: 15
   isPlayerNear: 0
 --- !u!1 &509194075630540145
 GameObject:
@@ -1291,7 +1291,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509194075630608641}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 5
   m_AngularDrag: 0.08
   m_UseGravity: 1

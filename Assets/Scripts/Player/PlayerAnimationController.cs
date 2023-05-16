@@ -2,63 +2,58 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
+    private Animator anim;
     public static PlayerAnimationController Instance;
     private Rigidbody rb;
+    private Transform thisTransform;
     [SerializeField] private float speedF;
+    [SerializeField] private Vector3 forwards;
+    [SerializeField] private float velocityThreashold = 0.1f;
 
 
     private void Awake()
     {
         Instance = this;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        thisTransform = transform;
     }
 
+    private void Start()
+    {
+        InvokeRepeating("PlayerWalkAnimations", 0f, 0.25f);
+    }
+    /*
     private void Update()
     {
         PlayerWalkAnimations();
-    }
+        //forwards = transform.forward;
+    }*/
 
     void PlayerWalkAnimations()
     {
+        //Get forwards direction
+        forwards = thisTransform.forward;
+
         //Check for player movement
         speedF = ((Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z)) / 2);
-
-        //If speed is not above threashold, set to zero
-        if (speedF < 0.1f && speedF > -0.1f)
-        {
-            speedF = 0;
-        }
         SetSpeed(speedF);
 
-        //If the player is moving forward play animation forward
-        if (((rb.velocity.x + rb.velocity.z) / 2) > 0.1)
+        if (speedF > 0.3f)
         {
-            this.anim.SetFloat("Forwards_f", 1);
-        }
-
-        //If player is moving backwards reverse animation
-        else if (((rb.velocity.x + rb.velocity.z) / 2) < -0.1)
-        {
-            this.anim.SetFloat("Forwards_f", -1);
-        }
-
-        //Adjust animation to prevent body from tilting and causing bullets to fire down
-        //If moving
-        if (speedF > 0.5)
-        {
-            SetBodyVert(0.3f);
-        }
-        //If idle
-        else if (speedF == 0)
-        {
-            SetBodyVert(0f);
+            //Check that if the player is moving in the direction they are facing in order to play the walking animation forwards and backwards
+            if ((rb.velocity.z < velocityThreashold * -1 && forwards.z < velocityThreashold * -1) || (rb.velocity.z > velocityThreashold && forwards.z > velocityThreashold) ||
+                (rb.velocity.x > velocityThreashold && forwards.x > velocityThreashold) || (rb.velocity.x < velocityThreashold * -1 && forwards.x < velocityThreashold * -1))
+            {
+                //facing and walking forward
+                this.anim.SetFloat("Forwards_f", 1);
+                return;
+            }
+            else
+            {
+                this.anim.SetFloat("Forwards_f", -1);
+                return;
+            }
         }
     }
 
@@ -88,8 +83,9 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     //Adjust body tilt
+    /*
     public void SetBodyVert(float bodyV)
     {
         anim.SetFloat("Body_Vertical_f", bodyV);
-    }
+    }*/
 }

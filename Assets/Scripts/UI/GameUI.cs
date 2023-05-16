@@ -21,9 +21,9 @@ public class GameUI : MonoBehaviour
     [SerializeField] private GameObject miniMap;
 
     [Header("Touch Controls")]
-    [SerializeField] private bool usingTouch = false;
     [SerializeField] private GameObject moveJoystick;
     [SerializeField] private GameObject shootJoystick;
+    [SerializeField] private GameObject pauseButton;
 
 
     private void Awake()
@@ -37,19 +37,24 @@ public class GameUI : MonoBehaviour
         if (miniMap == null) miniMap = transform.Find("GameUI/MiniMap").GetComponent<RectTransform>().gameObject;
         if (moveJoystick == null) moveJoystick = transform.Find("GameUI/MoveJoystick").GetComponent<RectTransform>().gameObject;
         if (shootJoystick == null) shootJoystick = transform.Find("GameUI/ShootJoystick").GetComponent<RectTransform>().gameObject;
+        if (pauseButton == null) pauseButton = transform.Find("GameUI/PauseButon").GetComponent<RectTransform>().gameObject;
     }
 
-    private void Start()
+    public void ToggleTouchControls(bool toggle)
     {
-        if (usingTouch)
+        if (toggle)
         {
             moveJoystick.SetActive(true);
             shootJoystick.SetActive(true);
+            pauseButton.SetActive(true);
+            miniMap.SetActive(false);
         }
         else
         {
             moveJoystick.SetActive(false);
             shootJoystick.SetActive(false);
+            pauseButton.SetActive(false);
+            miniMap.SetActive(false);
         }
     }
 

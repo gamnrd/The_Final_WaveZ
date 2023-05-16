@@ -425,7 +425,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: Weapons
     m_StateMachine: {fileID: 110775091}
-    m_Mask: {fileID: 101100000, guid: 8f022796fa5205e4483f40dd7b373bb4, type: 2}
+    m_Mask: {fileID: 101100000, guid: c1d1c130e45b5b547a11583f67145ef5, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -4657,7 +4657,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: Speed_f
-    m_EventTreshold: 0.5
+    m_EventTreshold: 0.3
   - m_ConditionMode: 1
     m_ConditionEvent: Static_b
     m_EventTreshold: 0.5
@@ -7300,7 +7300,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400002, guid: 7039333667ba45840b1411867278ee2e, type: 3}
+  m_Motion: {fileID: 7400000, guid: d293adcfba7061d449dbd335c07e2885, type: 2}
   m_Tag: 
   m_SpeedParameter: Forwards_f
   m_MirrorParameter: 
@@ -9048,7 +9048,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: Speed_f
-    m_EventTreshold: 0.5
+    m_EventTreshold: 0.3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110200000}
   m_Solo: 0

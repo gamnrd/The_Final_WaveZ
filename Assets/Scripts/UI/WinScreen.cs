@@ -33,7 +33,7 @@ public class WinScreen : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", playerScore);
         }
         Time.timeScale = 0;
-
+        gameWinUI.SetActive(true);
         playerScoreTxt.text = "Your Score: " + playerScore;
         highScoreTxt.text = "High Score: " + highScore;
     }

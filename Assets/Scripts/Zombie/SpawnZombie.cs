@@ -8,15 +8,13 @@ public class SpawnZombie : MonoBehaviour
     [SerializeField] private float spawnTimer = 0;
     [SerializeField] private float despawnCountDown = 5;
     [SerializeField] private float deSpawntimer = 0;
-    [SerializeField] private float distanceToSpawnAwayFromPlayer = 1;
-    private Transform player;
     [SerializeField] private Vector3 spawnPos = Vector3.zero;
     private CheckPlayerNear IsPlayerNear;
+    private int spawnAttemptLimt = 3;
+    private int spawnAttempts = 0;
 
     //Raycast
-    private RaycastHit hit;
     private bool isSpawnPointInvalid = false;
-    private Vector3 collision;
     [SerializeField]private LayerMask layer;
     [SerializeField] private Ray ray;
 
@@ -32,12 +30,11 @@ public class SpawnZombie : MonoBehaviour
 
         //Draw range that player needs to be within to spawn zombies
         Gizmos.color = new Color(0, 1, 0, 0.1f);
-        //Gizmos.DrawSphere(transform.localPosition + center, spawnRange);
+        //Gizmos.DrawSphere(transform.localPosition + center, 70);
     }
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         IsPlayerNear = GetComponent<CheckPlayerNear>();
     }
 
@@ -45,8 +42,6 @@ public class SpawnZombie : MonoBehaviour
     {
         //Start timer
         spawnTimer = spawnCountDown;
-        collision = transform.position;
-        //layer = ~LayerMask.GetMask("Ground");
     }
 
     // Update is called once per frame
@@ -83,19 +78,36 @@ public class SpawnZombie : MonoBehaviour
 
     private void Spawn()
     {
+        spawnAttempts = 0;
+
         //Create a random spawn point so long as it is too close to the player
         do
         {
+            //Track how many attempts are made to find a valid spawn position
+            spawnAttempts++;
+        
             //Create a random spawn point within the spawn zone
             spawnPos = center + new Vector3(Random.Range(-size.x / 2, size.x / 2), 0, Random.Range(-size.z / 2, size.z / 2));
 
             //Use a raycast sphere with the zombies radius to check that the spawn point is clear of other objects
             ray = new Ray(transform.position + new Vector3(spawnPos.x, 10, spawnPos.z), Vector3.down);
-            isSpawnPointInvalid = Physics.SphereCast(ray, 1f, out hit, 12, layer);
+            //Start from Ray pos, radius, output hit, distance, layers to hit
+            isSpawnPointInvalid = Physics.SphereCast(ray, 0.5f, 12, layer);
+
+
+            //If there have been too many unsuccesful attempts to find a valid spawn pos
+            if (spawnAttempts > spawnAttemptLimt)
+            {
+                Debug.Log($"{gameObject.name} had {spawnAttemptLimt} failed spawn attempts");
+                spawnAttempts = 0;
+                spawnTimer = spawnCountDown;
+                return;
+            }
 
             //While the spawn point is not too close to the player and the spawn point is not inside another object
-        } while (((Vector3.Distance(spawnPos, player.position)) < distanceToSpawnAwayFromPlayer) || isSpawnPointInvalid);
-        
+        } while (isSpawnPointInvalid);
+
+
         //Check that zombie limit is not exceeded
         if (ZombieCounter.Instance.canSpawn())
         {
@@ -124,6 +136,7 @@ public class SpawnZombie : MonoBehaviour
         }
     }
 
+    [ContextMenu(itemName: "Combine Meshes")]
     private void DestroyAll()
     {
         foreach (Transform child in transform)

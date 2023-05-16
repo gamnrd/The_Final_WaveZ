@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    AsyncOperation scene;
+    [SerializeField] private GameObject startScreen;
+    [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private Image loadingBar;
+
     #region Difficulty
     /*
       * easy - enemy health 1, player health 20
@@ -36,8 +41,23 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        //Time.timeScale = 1;
-        SceneManager.LoadScene("Game");
+        scene = SceneManager.LoadSceneAsync("Game");
+        startScreen.SetActive(false);
+        loadingScreen.SetActive(true);
+        StartCoroutine(LoadingScreen());
+        
+    }
+
+    IEnumerator LoadingScreen()
+    {
+        float loadProgess = 0;
+
+        while(!scene.isDone)
+        {
+            loadProgess += scene.progress;
+            loadingBar.fillAmount = loadProgess;
+            yield return null;
+        }
     }
 
     public void QuitButton()
