@@ -4,28 +4,36 @@ using System.Collections;
 
 public class ZombieMovement : MonoBehaviour
 {
-    public enum ZombieState : short { Pursuing, Wandering, Attacking};
+    public enum ZombieState : short { Pursuing, Wandering, Attacking };
+
+    [Header("State")]
     public ZombieState zombieState = ZombieState.Wandering;
 
-    //Pursue player
-    private Transform playerPos;
-    [SerializeField] private CheckPlayerNear isPlayerNear;
+    [Header("Movement")]
     public float walkSpeed = 1;
     public float pursuitSpeed = 5;
     private Transform thisTransform;
+    private Transform playerPos;
+    [SerializeField] private CheckPlayerNear isPlayerNear;
+    private float counter = 0;
+    private Vector3 direction;
+
+    [Header("Attack")]
+    public int damage = 1;
     private bool hasAttacked = false;
+    public float attackDistance = 2f;
+    private PlayerHealth playerHealth;
+
+    private int skinNum;
     private bool spawned = false;
     private float spawnCooldown = 1f;
 
     //Walk aimlesly
-    private float counter = 0;
-    private Vector3 direction;
 
-    //Sound
+
+    [Header("Sound")]
     public AudioSource src;
     public AudioClip attack;
-
-    private int skinNum;
 
     private NavMeshAgent navAgent;
     private Animator anim;
@@ -35,6 +43,7 @@ public class ZombieMovement : MonoBehaviour
         isPlayerNear = GetComponentInChildren<CheckPlayerNear>();
         anim = GetComponent<Animator>();    //Get animator
         playerPos = GameObject.FindWithTag("Player").transform; //Get players transfor
+        playerHealth = playerPos.gameObject.GetComponent<PlayerHealth>();
         navAgent = GetComponent<NavMeshAgent>();   //Get nav mesh
         //navAgent.destination = pos.position;
         thisTransform = transform;
@@ -50,8 +59,10 @@ public class ZombieMovement : MonoBehaviour
         isPlayerNear.isPlayerNear = false;
         skinNum = Random.Range(0, 26);
         thisTransform.GetChild(skinNum).gameObject.SetActive(true); //Spawn with random zombie skin
+
+        //Delay spawned state to play animation and not attack right on spawn
         spawned = false;
-        spawnCooldown = 2f;
+        spawnCooldown = 1.3f;
         navAgent.enabled = false;
 
         //invoke spawned, invoke repeating move
@@ -84,27 +95,25 @@ public class ZombieMovement : MonoBehaviour
 
     private void CheckState()
     {
-        if (zombieState == ZombieState.Pursuing)
+        switch (zombieState)
         {
-            if (!isPlayerNear.isPlayerNear)
-            {
-                StartCoroutine(SetState(ZombieState.Wandering, 1f));
-                return;
-            }
-        }        
-        
-        if (zombieState == ZombieState.Wandering)
-        {
-            if (isPlayerNear.isPlayerNear)
-            {
-                StartCoroutine(SetState(ZombieState.Pursuing, 1f));
-                return;
-            }
-        }        
-        
-        if (zombieState == ZombieState.Attacking)
-        {
+            case ZombieState.Pursuing:
+                if (!isPlayerNear.isPlayerNear)
+                    StartCoroutine(SetState(ZombieState.Wandering, 1f));
+                break;
 
+            case ZombieState.Wandering:
+                if (isPlayerNear.isPlayerNear)
+                    StartCoroutine(SetState(ZombieState.Pursuing, 1f));
+                break;
+
+            case ZombieState.Attacking:
+                if (hasAttacked == false)
+                    StartCoroutine(SetState(ZombieState.Pursuing, 0.5f));
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -116,9 +125,10 @@ public class ZombieMovement : MonoBehaviour
 
     public void Move()
     {
-        
+        if (!spawned) return;
+
         //If the player is within range, move towards them
-        if (zombieState == ZombieState.Pursuing && spawned)
+        if (zombieState == ZombieState.Pursuing)
         {
             //Look at and move towards player
             if (navAgent.enabled == false)
@@ -170,25 +180,33 @@ public class ZombieMovement : MonoBehaviour
         //Zombie damage
         if (other.gameObject.CompareTag("Player") && !hasAttacked)
         {
-            hasAttacked = true;
-            //anim.speed = 3;
-            anim.SetBool("Attacking_b", true);
-            anim.Play("Zombie_Attacking");
+            Attack();
+        }
+    }
 
-            //Only if zombie is currently attacking
-            if (anim.GetBool("Attacking_b") == true)
-            {
-                //Damage player
-                other.gameObject.GetComponent<PlayerHealth>().DamagePlayer(1);
-            }
 
-            //If zombie attack animation is over, set zombie to not attacking
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie_Eating"))
-            {
-                anim.SetBool("Attacking_b", false);
-                hasAttacked = false;
-            }
+    void Attack()
+    {
+        zombieState = ZombieState.Attacking;
+        hasAttacked = true;
+        anim.SetBool("Attacking_b", true);
+        anim.Play("Zombie_Attacking");
+        Invoke("TryDamage", 0.26f);
+        Invoke("DisableIsAttacking", 1f);
+    }
+
+    void TryDamage()
+    {
+        if (Vector3.Distance(transform.position, playerPos.position) <= attackDistance)
+        {
+            playerHealth.DamagePlayer(damage);
             src.PlayOneShot(attack, 0.5f);
         }
+    }
+
+    void DisableIsAttacking()
+    {
+        hasAttacked = false;
+        anim.SetBool("Attacking_b", false);
     }
 }

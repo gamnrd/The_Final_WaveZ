@@ -16,7 +16,7 @@ public class ZombieCounter : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        zombiePool = ObjectPool.CreateInstance(zombiePrefab, zombieMax);
+        zombiePool = ObjectPool.CreateInstance(zombiePrefab, zombieMax, "Zombie Pool");
         //TODO set max each wave, keep track of total zombies spawned, not present zombies
     }
 

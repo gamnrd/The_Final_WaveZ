@@ -4,7 +4,7 @@ using TMPro;
 
 public class GameUI : MonoBehaviour
 {
-    public static GameUI Instance;
+    public static GameUI Instance = null;
 
     [Header("Game UI")]
     [SerializeField] private GameObject gameUI;
@@ -28,16 +28,20 @@ public class GameUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        if(gameUI == null) gameUI = transform.Find("GameUI").GetComponent<RectTransform>().gameObject;
-        if (healthImg == null) healthImg = transform.Find("GameUI/HealthBar/Fill").GetComponent<Image>();
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+            /*
+        if (gameUI == null) gameUI = transform.Find("GameUI").GetComponent<RectTransform>().gameObject;
+        //if (healthImg == null) healthImg = transform.Find("GameUI/HealthBar/Fill").GetComponent<Image>();
         if (livesTxt == null) livesTxt = transform.Find("GameUI/LivesTxt").GetComponent<TextMeshProUGUI>();
         if (healthTxt == null) healthTxt = transform.Find("GameUI/HealthBar/HealthTxt").GetComponent<TextMeshProUGUI>();
         if (scoreTxt == null) scoreTxt = transform.Find("GameUI/ScoreTxt").GetComponent<TextMeshProUGUI>();
         if (miniMap == null) miniMap = transform.Find("GameUI/MiniMap").GetComponent<RectTransform>().gameObject;
         if (moveJoystick == null) moveJoystick = transform.Find("GameUI/MoveJoystick").GetComponent<RectTransform>().gameObject;
         if (shootJoystick == null) shootJoystick = transform.Find("GameUI/ShootJoystick").GetComponent<RectTransform>().gameObject;
-        if (pauseButton == null) pauseButton = transform.Find("GameUI/PauseButon").GetComponent<RectTransform>().gameObject;
+        if (pauseButton == null) pauseButton = transform.Find("GameUI/PauseButon").GetComponent<RectTransform>().gameObject;*/
     }
 
     public void ToggleTouchControls(bool toggle)

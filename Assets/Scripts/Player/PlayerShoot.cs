@@ -6,14 +6,13 @@ public class PlayerShoot : MonoBehaviour
 {
     //public GameObject weapon;
     [Header("Bullet")]
-    //[SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private MeshRenderer gunFlash;
     
 
     //Weapon Delays
-    private float timer;
+    private float lastTimeShot;
     [SerializeField] private float fireRate = 0.25f;
 
     //Sound
@@ -29,7 +28,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Awake()
     {
-        bulletPool = ObjectPool.CreateInstance(bulletPrefab, 10);
+        bulletPool = ObjectPool.CreateInstance(bulletPrefab, 10, "Bullet Pool");
         src = GetComponent<AudioSource>();
         bulletSpawnPoint = GameObject.Find("FirePoint").transform;
         playerHealth = GetComponent<PlayerHealth>();
@@ -37,26 +36,14 @@ public class PlayerShoot : MonoBehaviour
         input = GetComponent<InputController>();
     }
 
-    private void Start()
-    {
-
-        timer = 0;
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (PauseScreen.Instance.GetPaused() || !playerHealth.GetPlayerAlive()) return;
-
-        if (input.platform == Platform.Mobile && input.joystickAim != Vector2.zero)
+        if (input.platform == Platform.Mobile && input.joystickAim != Vector2.zero && Time.time - lastTimeShot > fireRate)
         {
-
-            timer -= Time.deltaTime;
-            if (timer <= 0)
-            {
-                Shoot();
-                timer = fireRate;
-            }
+            lastTimeShot = Time.time;
+            Shoot();
         }
     }
 

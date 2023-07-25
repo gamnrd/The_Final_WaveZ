@@ -8,18 +8,22 @@ public class RespawnController : MonoBehaviour
     private Transform player;
     private Transform playerBody;
     [SerializeField] private Transform StartPoint;
-    public static RespawnController Instance;
+    public static RespawnController Instance = null;
 
     private void Awake()
     {
-        Instance = this;
+        if(Instance == null)
+            Instance = this;
+
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        //StartPoint = player.position;
         playerBody = player.GetChild(0).transform;
     }
 
     private void Start()
     {
         respawnPoint = StartPoint;
+        //respawnPoint.position = player.position;
     }
 
     public void setCheckpoint(Transform newCheckPoint)
@@ -29,7 +33,7 @@ public class RespawnController : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        player.transform.position = respawnPoint.transform.position;
-        playerBody.transform.position = respawnPoint.transform.position;
+        player.transform.position = respawnPoint.position;
+        playerBody.transform.position = respawnPoint.position;
     }
 }

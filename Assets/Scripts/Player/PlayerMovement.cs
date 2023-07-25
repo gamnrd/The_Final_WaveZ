@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float movSpeed;
     private Rigidbody rb;
-    [SerializeField] private bool isGrounded =true;
+    [SerializeField] private bool isGrounded = true;
     [SerializeField] private LayerMask groundLayers;
     Vector3 movement;
 
@@ -24,9 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float GroundedOffset = -0.14f;
     public float GroundedRadius = 0.28f;
-    private float groundTimer = 0;
 
-    private InputController input;
+    [SerializeField] private InputController input;
 
     //Aim mouse
     private Ray ray;
@@ -52,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         GameUI.Instance.ToggleTouchControls(input.platform == Platform.Mobile);
+        InvokeRepeating("OnGround", 0f, 0.25f);
     }
 
     // Update is called once per frame
@@ -60,91 +60,61 @@ public class PlayerMovement : MonoBehaviour
         //If player is not alive, disable movement
         if (!playerHealth.GetPlayerAlive()) return;
 
-        //Controller
-        if (input.platform == Platform.Console)
+        //Move player based on inputs
+        switch (input.platform)
         {
-            if (input.joystickAim.x != 0 || input.joystickAim.y != 0)
-            {
-                AimJoystick();
-            }
-
-            if (input.move.x != 0 || input.move.y !=0)
-            {
-                MovePlayer(input.move.x, input.move.y);
-            }
-        }        
-        
+            case Platform.PC:
+                AimMouse();
+                if (input.move.x != 0 || input.move.y != 0)
+                {
+                    MovePlayer(input.move.x, input.move.y);
+                }
+                break;
 
 
-        //Keyboard and mouse
-        if (input.platform == Platform.PC)
-        {
-            AimMouse();
-            if (input.move.x != 0 || input.move.y != 0)
-            {
-                MovePlayer(input.move.x, input.move.y);
-            }
-        }        
-        
+
+            case Platform.Mobile:
+                hInput = moveJoystick.Horizontal;
+                vInput = moveJoystick.Vertical;
+
+                if (input.joystickAim.x != 0 || input.joystickAim.y != 0)
+                {
+                    AimJoystick();
+                }
+
+                if (hInput != 0 || vInput != 0)
+                {
+                    MovePlayer(hInput, vInput);
+                }
+                break;
 
 
-        //Touch Controls
-        if (input.platform == Platform.Mobile)
-        {
-            hInput = moveJoystick.Horizontal;
-            vInput = moveJoystick.Vertical;
-            
-            if (input.joystickAim.x != 0 || input.joystickAim.y != 0)
-            {
-                AimJoystick();
-            }
 
-            if (hInput != 0 || vInput != 0)
-            {
-                MovePlayer(hInput, vInput);
-            }
-        }        
-        
+            case Platform.Console:
+                if (input.joystickAim.x != 0 || input.joystickAim.y != 0)
+                {
+                    AimJoystick();
+                }
+
+                if (input.move.x != 0 || input.move.y != 0)
+                {
+                    MovePlayer(input.move.x, input.move.y);
+                }
+                break;
 
 
-        //Keyboard and mouse
-        if (input.platform == Platform.Web)
-        {
-            AimMouse();
-            if (input.move.x != 0 || input.move.y != 0)
-            {
-                MovePlayer(input.move.x, input.move.y);
-            }
+
+            case Platform.Web:
+                AimMouse();
+                if (input.move.x != 0 || input.move.y != 0)
+                {
+                    MovePlayer(input.move.x, input.move.y);
+                }
+                break;
+
+            default:
+                break;
         }
-
-
-        //Controller or touch controls
-        /*if (input.platform == Platform.Console || input.platform == Platform.Mobile)
-        {
-            if (input.joystickAim.x == 0 && input.joystickAim.y == 0)
-            {
-                MovePlayer(input.move.x, input.move.y);
-            }
-            else
-            {
-                MovePlayerWithAim();
-            }
-        }*/
-        //Using Mouse and keyboard
-        /*
-        if (input.platform == Platform.PC || input.platform == Platform.Web)
-        {
-            //FaceMouse();
-            MovePlayerWithAim();
-        }
-        */
-        groundTimer -= Time.deltaTime;
-        if (groundTimer <= 0)
-        {
-            OnGround();
-            groundTimer = 0.25f;
-        }
-
     }
 
     private void AimJoystick()

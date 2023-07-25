@@ -8,12 +8,20 @@ public class ZombieHealth : DestroyPoolableObject
     public int totalHealth = 3;
     public GameObject deathEffect;
     public Transform deathEffectPos;
-    
+    private GameMode mode;
     //Sound
     public AudioSource src;
     public AudioClip die;
-
+    private GameObject pool;
     private NavMeshAgent navAgent;
+
+    private void Awake()
+    {
+        pool = GameObject.Find("Zombie Pool");
+        totalHealth = PlayerPrefs.GetInt("ZombieHealth", 3);
+        navAgent = GetComponent<NavMeshAgent>();
+        //mode = GameManager.instance.gameMode;
+    }
 
     public override void OnEnable()
     {
@@ -28,11 +36,7 @@ public class ZombieHealth : DestroyPoolableObject
         base.OnDisable();
     }
 
-    private void Awake()
-    {
-        totalHealth = PlayerPrefs.GetInt("ZombieHealth", 3);
-        navAgent = GetComponent<NavMeshAgent>();
-    }
+
 
     private void OnCollisionEnter(Collision other)
     {
@@ -56,8 +60,13 @@ public class ZombieHealth : DestroyPoolableObject
             {
                 src.PlayOneShot(die, 0.7f);
                 GameUI.Instance.AdjustScore(100);
-                //ZombieCounter.Instance.decrementCount();
-                //WaveManager.Instance.ZombieKilled();
+
+                if (GameManager.instance.gameMode == GameMode.Wave)
+                {
+                    WaveZombieCounter.Instance.DecrementCount();
+                    WaveManager.Instance.ZombieKilled();
+                }
+
                 Destroy(Instantiate(deathEffect, deathEffectPos.position, deathEffectPos.rotation), 0.5f);
             }
 
@@ -67,6 +76,6 @@ public class ZombieHealth : DestroyPoolableObject
 
     public void MoveToPool()
     {
-        transform.SetParent(GameObject.Find("Zombie Pool").transform);
+        transform.SetParent(pool.transform);
     }
 }

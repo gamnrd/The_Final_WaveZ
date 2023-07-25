@@ -10,13 +10,13 @@ public class CameraController : MonoBehaviour
     private Vector3 targetPos;
     private Transform pos;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         offset = transform.position - player.transform.position;
         pos = transform;
     }
+
 
     // Update is called once per frame
     void LateUpdate()

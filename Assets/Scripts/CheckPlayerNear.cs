@@ -14,6 +14,13 @@ public class CheckPlayerNear : MonoBehaviour
         sphereCollider.radius = radius;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        //Draw range that player needs to be within to spawn zombies
+        Gizmos.color = new Color(0, 1, 0, 0.1f);
+        Gizmos.DrawSphere(transform.position, radius);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

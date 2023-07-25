@@ -7,7 +7,7 @@ public enum Platform : short { PC, Mobile, Console, Web};
 
 public class InputController : MonoBehaviour
 {
-    public static InputController Instance;
+    public static InputController Instance = null;
 
     public Vector2 move { get; private set; }
     public Vector2 mouseAim { get; private set; }
@@ -17,7 +17,8 @@ public class InputController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
     }
 
     public Platform GetPlatform()

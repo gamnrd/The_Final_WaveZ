@@ -23,12 +23,7 @@ public class PlayerAnimationController : MonoBehaviour
     {
         InvokeRepeating("PlayerWalkAnimations", 0f, 0.25f);
     }
-    /*
-    private void Update()
-    {
-        PlayerWalkAnimations();
-        //forwards = transform.forward;
-    }*/
+
 
     void PlayerWalkAnimations()
     {

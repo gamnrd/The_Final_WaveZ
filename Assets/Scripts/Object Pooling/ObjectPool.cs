@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectPool
 {
     private PoolableObject prefab;
-    private List<PoolableObject> availableObjects;
+    public List<PoolableObject> availableObjects;
 
     private ObjectPool(PoolableObject prefab, int size)
     {
@@ -15,13 +15,13 @@ public class ObjectPool
 
 
     //Create object pool
-    public static ObjectPool CreateInstance(PoolableObject prefab, int size)
+    public static ObjectPool CreateInstance(PoolableObject prefab, int size, string poolName)
     {
         //Start new pool
         ObjectPool pool = new ObjectPool(prefab, size);
 
         //Create the parent that stores all the objects give it the prefab name pool
-        GameObject poolObject = new GameObject(prefab.name + " Pool");
+        GameObject poolObject = new GameObject(poolName);
         pool.CreateObjects(poolObject.transform, size);
 
         return pool;
@@ -40,6 +40,7 @@ public class ObjectPool
             poolableObject.name = poolableObject.name + i;
             //Set the object inactive
             poolableObject.gameObject.SetActive(false);
+            availableObjects.Add(poolableObject);
         }
     }
 
@@ -68,7 +69,7 @@ public class ObjectPool
         }
         else
         {
-            Debug.Log($"No \"{prefab.name})\" available from pool ");
+            Debug.Log($"No \"{prefab.name}\" available from pool ");
             return null;
         }
     }

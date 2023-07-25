@@ -1293,7 +1293,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 5
-  m_AngularDrag: 0.08
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1343,9 +1343,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55af1ff99a689a4f8ed6b4d3139072a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerNear: {fileID: 0}
+  zombieState: 1
   walkSpeed: 1
   pursuitSpeed: 5
+  isPlayerNear: {fileID: 0}
+  damage: 1
+  attackDistance: 1
   src: {fileID: -5876733262170564479}
   attack: {fileID: 8300000, guid: c39371bea067dfe45bf9b593b55b42a1, type: 3}
 --- !u!195 &509194075630608654

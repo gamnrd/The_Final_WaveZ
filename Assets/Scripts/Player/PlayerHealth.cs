@@ -17,12 +17,12 @@ public class PlayerHealth : MonoBehaviour
 
     //Damage
     [Header("Damage")]
-    [SerializeField] private bool canBeHurt = true;
-    [SerializeField] private float hitTimer = 0;
+    private float lastTimeHit;
+    [SerializeField] private float hitTimer = 1f;
 
     //Respawn
-    [SerializeField] private bool isAlive;
-    private float respawnTimer = 0;
+    [SerializeField] private bool isAlive = true;
+    private float respawnTimer = 2;
 
     //Fx
     [Header("FX")]
@@ -42,8 +42,6 @@ public class PlayerHealth : MonoBehaviour
     {
         //Get max health based on difficulty
         maxHealth = PlayerPrefs.GetInt("PlayerHealth", 10);
-        curHealth = maxHealth;
-        curLives = maxLives;
         anim = GetComponent<PlayerAnimationController>();
         src = GetComponent<AudioSource>();
     }
@@ -52,34 +50,11 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isAlive = true;
+        curHealth = maxHealth;
+        curLives = maxLives;
         GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //If player cannot be hurt and is alive, don't countdown
-        if (canBeHurt == false && isAlive == true)
-        {
-            hitTimer -= Time.deltaTime;
-            if (hitTimer <= 0)
-            {
-                canBeHurt = true;
-            }
-        }
-
-
-        //If player has died set countdown for time to respawn
-        if (isAlive == false && curLives > 0)
-        {
-            respawnTimer -= Time.deltaTime;
-            if (respawnTimer <= 0)
-            {
-                RespawnPlayer();
-            }
-        }
-    }
 
     //Return whether the player is alive or not
     public bool GetPlayerAlive()
@@ -91,13 +66,7 @@ public class PlayerHealth : MonoBehaviour
     public void HealPlayer(int healAmount)
     {
         //raise health
-        curHealth += healAmount;
-        //check that health is not over max
-        if (curHealth > maxHealth)
-        {
-            curHealth = maxHealth;
-        }
-        //update health UI
+        curHealth = Mathf.Min(curHealth + healAmount, maxHealth);
         GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
     }
 
@@ -106,48 +75,43 @@ public class PlayerHealth : MonoBehaviour
     public void DamagePlayer(int damageAmount)
     {
         //If the zombie is attacking, player can be hurt and player is not dead
-        if (canBeHurt && isAlive)
-        {
-            src.PlayOneShot(hurt, 0.7f);
-            canBeHurt = false;
-            hitTimer = 3f;
-            //damage player
-            curHealth -= damageAmount;
-            GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
+        if (Time.time - lastTimeHit < hitTimer || !isAlive) return;
 
-            //If health is zero, kill player
-            if (curHealth <= 0)
-            {
-                curLives--;
-                GameUI.Instance.UpdateLives(curLives);
+        lastTimeHit = Time.time;
+        src.PlayOneShot(hurt, 0.7f);
+        //damage player
+        curHealth = Mathf.Max(curHealth - damageAmount, 0);
+        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
 
-                KillPlayer();
-            }
-        }
+        //If health is zero, kill player
+        if (curHealth <= 0)
+            KillPlayer();
+
     }
 
 
     //Kill player
     public void KillPlayer()
     {
-        src.PlayOneShot(die, 0.7f);
-        curHealth = 0;
-        if (deathEffect != null)
-        {
-            Destroy(Instantiate(deathEffect, transform.position, Quaternion.Euler(0, 0, 90)), 0.5f);
-        }
-        //Play death animation
-        anim.SetDead(true);
+        Debug.Log("Should be dead");
+
+        //Update stats
         isAlive = false;
+        curLives--;
+        GameUI.Instance.UpdateLives(curLives);
+
+        //Play death animation
+        src.PlayOneShot(die, 0.7f);
+        if (deathEffect != null)
+            Destroy(Instantiate(deathEffect, transform.position, Quaternion.Euler(0, 0, 90)), 0.5f);
+        anim.SetDead(true);
+        
+        //Check action based on lives remaining
         if (curLives > 0)
-        {
-            respawnTimer = 5;
-        }
+            Invoke("RespawnPlayer", respawnTimer);
+
         else if (curLives <= 0)
-        {
-            curLives = 0;
             GameOver();
-        }
     }
 
 

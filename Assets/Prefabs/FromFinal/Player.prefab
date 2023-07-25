@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 035ce60c832ad4242bcd808403ed5769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: 1
+  platform: 0
 --- !u!114 &607549526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +265,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 9
+  moveJoystick: {fileID: 0}
   GroundedOffset: -0.14
   GroundedRadius: 0.28
 --- !u!114 &4037355694517924078
@@ -301,9 +302,7 @@ MonoBehaviour:
   curLives: 0
   maxLives: 3
   pauseMenu: {fileID: 0}
-  canBeHurt: 1
-  hitTimer: 0
-  isAlive: 0
+  isAlive: 1
   deathEffect: {fileID: 52728485410541498, guid: 0ffd58a2442d69a48a07f6eea6d8cbc6, type: 3}
   die: {fileID: 8300000, guid: 54e6a2c6b5303d145adbd823a79330b2, type: 3}
   hurt: {fileID: 8300000, guid: c5ce462535f15de408a0c08ebe61c39c, type: 3}
@@ -319,10 +318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88b6b3483c8f674fb4fa931933e0425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 4037355695017193289}
   speedF: 0
   forwards: {x: 0, y: 0, z: 0}
-  velocityThreashold: 0
+  velocityThreashold: 0.1
 --- !u!54 &4037355694517924079
 Rigidbody:
   m_ObjectHideFlags: 0
