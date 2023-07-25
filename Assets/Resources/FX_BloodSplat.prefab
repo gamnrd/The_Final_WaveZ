@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 52728485410770974}
   - component: {fileID: 52728485426039570}
   - component: {fileID: 52728485424267886}
+  - component: {fileID: -4240877001276768753}
   m_Layer: 0
   m_Name: FX_BloodSplat
   m_TagString: Untagged
@@ -4748,3 +4749,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &-4240877001276768753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52728485410541498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae55545d39a69d419835f37d69b8a21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBeingUsed: 0
+  AutoDestoryTime: 1

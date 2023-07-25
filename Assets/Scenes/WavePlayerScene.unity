@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 378216348}
   - component: {fileID: 378216350}
   - component: {fileID: 378216351}
+  - component: {fileID: 378216352}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -358,6 +359,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 0
+--- !u!114 &378216352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378216347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f145b57e4583df94c9259d37b90a5630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sparkPrefab: {fileID: 8302834690928653042, guid: 8942e9a85433ab94ea63e7aa23c7ac97, type: 3}
+  bloodPrefab: {fileID: -4240877001276768753, guid: 50850d4ddd21d964a8a07cc094d60c0e, type: 3}
+  deathFXPrefab: {fileID: -6669766894244533045, guid: 0ffd58a2442d69a48a07f6eea6d8cbc6, type: 3}
 --- !u!114 &553309025 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2617944200903565859, guid: 09dc80caddc8686469c9ce9fe233d7c5, type: 3}

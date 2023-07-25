@@ -93,8 +93,6 @@ public class PlayerHealth : MonoBehaviour
     //Kill player
     public void KillPlayer()
     {
-        Debug.Log("Should be dead");
-
         //Update stats
         isAlive = false;
         curLives--;

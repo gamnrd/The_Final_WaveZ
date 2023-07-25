@@ -15,7 +15,7 @@ public class AutoDestroyPoolableObject : PoolableObject
 
     public virtual void Disable()
     {
-        //base.OnDisable();
+        base.OnDisable();
         gameObject.SetActive(false);
     }
 }
