@@ -20,24 +20,16 @@ public class Bullet : AutoDestroyPoolableObject
             //If the bullet hits a zombie spawn blood
             if (other.gameObject.CompareTag("Zombie"))
             {
-                //Destroy(Instantiate(Resources.Load("FX_BloodSplat"), transform.position, transform.rotation), 0.5f);
-
                 PoolableObject instance = ParticlePoolManager.instance.bloodPool.GetObject();
                 if (instance != null)
-                {
                     instance.transform.localPosition = transform.position;
-                }
             }
             //Else spawn sparks
             else
             {
-                //Destroy(Instantiate(Resources.Load("FX_Spark"), transform.position, transform.rotation), 0.5f);
-
                 PoolableObject instance = ParticlePoolManager.instance.sparkPool.GetObject();
                 if (instance != null)
-                {
                     instance.transform.localPosition = transform.position;
-                }
             }
 
             Disable();
