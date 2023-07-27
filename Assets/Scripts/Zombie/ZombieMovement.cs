@@ -22,6 +22,8 @@ public class ZombieMovement : MonoBehaviour
     public int damage = 1;
     private bool hasAttacked = false;
     public float attackDistance = 2f;
+    public float attackRate = 3f;
+    public float lastAttackTime;
     private PlayerHealth playerHealth;
 
     private int skinNum;
@@ -37,20 +39,23 @@ public class ZombieMovement : MonoBehaviour
 
     private NavMeshAgent navAgent;
     private Animator anim;
+    private ZombieHealth health;
 
     private void Awake()
     {
         isPlayerNear = GetComponentInChildren<CheckPlayerNear>();
         anim = GetComponent<Animator>();    //Get animator
-        playerPos = GameObject.FindWithTag("Player").transform; //Get players transfor
+        playerPos = GameObject.FindObjectOfType<PlayerHealth>().gameObject.transform; //Get players transfor
         playerHealth = playerPos.gameObject.GetComponent<PlayerHealth>();
         navAgent = GetComponent<NavMeshAgent>();   //Get nav mesh
+        health = GetComponent<ZombieHealth>();
         //navAgent.destination = pos.position;
         thisTransform = transform;
     }
 
     private void Start()
     {
+        InvokeRepeating("CheckState", 0.5f, 0.5f);
         navAgent.speed = pursuitSpeed;  //Set speed when using nav mesh
     }
 
@@ -59,6 +64,10 @@ public class ZombieMovement : MonoBehaviour
         isPlayerNear.isPlayerNear = false;
         skinNum = Random.Range(0, 26);
         thisTransform.GetChild(skinNum).gameObject.SetActive(true); //Spawn with random zombie skin
+
+        //Double check that play object isnt null
+        if(playerPos == null) playerPos = GameObject.FindObjectOfType<PlayerHealth>().gameObject.transform; //GameObject.FindWithTag("Player").transform; //Get players transfor
+        if(playerHealth == null) playerHealth = playerPos.gameObject.GetComponent<PlayerHealth>();
 
         //Delay spawned state to play animation and not attack right on spawn
         spawned = false;
@@ -79,6 +88,15 @@ public class ZombieMovement : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        //If the zombie is dead
+        if (!health.isAlive)
+        {   
+            //disable the nav agent to stop the body moving
+            if (navAgent.enabled) navAgent.enabled = false;
+
+            return;
+        }
+
         //if just spawned and the player is within range, wait before pursuing
         if (!spawned)
         {
@@ -89,12 +107,14 @@ public class ZombieMovement : MonoBehaviour
             }
         }
 
-        CheckState();
+        //CheckState();
         Move();
     }
 
     private void CheckState()
     {
+        if (!health.isAlive) return;
+
         switch (zombieState)
         {
             case ZombieState.Pursuing:
@@ -178,21 +198,32 @@ public class ZombieMovement : MonoBehaviour
     public void OnCollisionEnter(Collision other)
     {
         //Zombie damage
-        if (other.gameObject.CompareTag("Player") && !hasAttacked)
+        if (other.gameObject.CompareTag("Player") && !hasAttacked && Time.time - lastAttackTime > attackRate)
         {
             Attack();
         }
     }
 
+    private void OnCollisionStay(Collision other)
+    {
+        //Zombie damage
+        if (other.gameObject.CompareTag("Player") && !hasAttacked && Time.time - lastAttackTime > attackRate)
+        {
+            Attack();
+        }
+    }
 
     void Attack()
     {
+        if (!health.isAlive) return;
+
         zombieState = ZombieState.Attacking;
         hasAttacked = true;
         anim.SetBool("Attacking_b", true);
         anim.Play("Zombie_Attacking");
         Invoke("TryDamage", 0.26f);
         Invoke("DisableIsAttacking", 1f);
+        lastAttackTime = Time.time;
     }
 
     void TryDamage()
@@ -200,7 +231,7 @@ public class ZombieMovement : MonoBehaviour
         if (Vector3.Distance(transform.position, playerPos.position) <= attackDistance)
         {
             playerHealth.DamagePlayer(damage);
-            src.PlayOneShot(attack, 0.5f);
+            src.PlayOneShot(attack, 0.25f);
         }
     }
 

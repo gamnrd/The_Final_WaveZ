@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 932813636967926095}
   - component: {fileID: 932813636967926094}
   m_Layer: 5
-  m_Name: ScoreTxt
+  m_Name: CashTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: '
+  m_text: 'Cash: $ '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -1481,7 +1481,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -69.2}
+  m_AnchoredPosition: {x: 20, y: -69}
   m_SizeDelta: {x: 123.6, y: 114.8}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6853076247921442864
@@ -1636,7 +1636,7 @@ MonoBehaviour:
   healthImg: {fileID: 509737371160650213}
   healthTxt: {fileID: 932813637436130749}
   score: 0
-  scoreTxt: {fileID: 932813636967926094}
+  cashTxt: {fileID: 932813636967926094}
   miniMap: {fileID: 4836422100540745717}
   moveJoystick: {fileID: 2359586984803548697}
   shootJoystick: {fileID: 2359586984404665251}

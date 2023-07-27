@@ -34,6 +34,6 @@ public class RespawnController : MonoBehaviour
     public void RespawnPlayer()
     {
         player.transform.position = respawnPoint.position;
-        playerBody.transform.position = respawnPoint.position;
+        playerBody.transform.localPosition = Vector3.zero; //respawnPoint.position;
     }
 }

@@ -1279,10 +1279,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBeingUsed: 0
   totalHealth: 3
-  deathEffect: {fileID: 52728485410541498, guid: 0ffd58a2442d69a48a07f6eea6d8cbc6, type: 3}
-  deathEffectPos: {fileID: 509194074542650535}
+  cashOnKill: 10
   src: {fileID: -5876733262170564479}
-  die: {fileID: 8300000, guid: fc4f2ad9ab5ec5b4dbcee1111c78396c, type: 3}
+  die: {fileID: 8300000, guid: 4eeba8e459b097d44b5cc22a0873af94, type: 3}
+  isAlive: 0
 --- !u!114 &3341316440202127963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1301,6 +1301,8 @@ MonoBehaviour:
   isPlayerNear: {fileID: 0}
   damage: 1
   attackDistance: 2
+  attackRate: 3
+  lastAttackTime: 0
   src: {fileID: -5876733262170564479}
   attack: {fileID: 8300000, guid: c39371bea067dfe45bf9b593b55b42a1, type: 3}
 --- !u!95 &509194075621158679
@@ -1316,7 +1318,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 92c93b80307cf90438fcfadd52eab10c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1336,7 +1338,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 3
 --- !u!136 &6582043061938918352
 CapsuleCollider:

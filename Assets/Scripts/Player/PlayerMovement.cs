@@ -119,11 +119,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void AimJoystick()
     {
-        aimDirection = new Vector3(input.joystickAim.x * (-1), 0f, input.joystickAim.y * (-1));
-
+        aimDirection = new Vector3(input.joystickAim.x * (-1), 0f, input.joystickAim.y * (-1)).normalized;
+        pos.rotation = Quaternion.Slerp(pos.rotation, Quaternion.LookRotation(aimDirection), 1f);
         if (aimDirection != Vector3.zero)
         {
-            pos.rotation = Quaternion.Slerp(pos.rotation, Quaternion.LookRotation(aimDirection), 1f);
+            
         }
     }
 

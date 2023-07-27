@@ -15,7 +15,7 @@ public class MinimapController : MonoBehaviour
 
     private void Start()
     {
-        dirLightMain = GameObject.Find("Directional Light").GetComponent<Light>();
+        //dirLightMain = GameObject.Find("Directional Light").GetComponent<Light>();
         //dirLightMinimap = GameObject.Find("Directional Light MiniMap").GetComponent<Light>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }

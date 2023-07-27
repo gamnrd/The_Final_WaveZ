@@ -16,7 +16,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthTxt;
 
     [SerializeField] private int score = 0;
-    [SerializeField] private TextMeshProUGUI scoreTxt;
+    [SerializeField] private TextMeshProUGUI cashTxt;
 
     [SerializeField] private GameObject miniMap;
 
@@ -28,20 +28,22 @@ public class GameUI : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
-        {
+        if (Instance == null)
             Instance = this;
-        }
-            /*
+    }
+    
+    private void Start()
+    {   
+        //Get all UI Elements if they are not set
         if (gameUI == null) gameUI = transform.Find("GameUI").GetComponent<RectTransform>().gameObject;
-        //if (healthImg == null) healthImg = transform.Find("GameUI/HealthBar/Fill").GetComponent<Image>();
+        if (healthImg == null) healthImg = transform.Find("/GameUI/HealthBar/Fill").GetComponent<Image>();
         if (livesTxt == null) livesTxt = transform.Find("GameUI/LivesTxt").GetComponent<TextMeshProUGUI>();
         if (healthTxt == null) healthTxt = transform.Find("GameUI/HealthBar/HealthTxt").GetComponent<TextMeshProUGUI>();
-        if (scoreTxt == null) scoreTxt = transform.Find("GameUI/ScoreTxt").GetComponent<TextMeshProUGUI>();
+        if (cashTxt == null) cashTxt = transform.Find("GameUI/CashTxt").GetComponent<TextMeshProUGUI>();
         if (miniMap == null) miniMap = transform.Find("GameUI/MiniMap").GetComponent<RectTransform>().gameObject;
         if (moveJoystick == null) moveJoystick = transform.Find("GameUI/MoveJoystick").GetComponent<RectTransform>().gameObject;
         if (shootJoystick == null) shootJoystick = transform.Find("GameUI/ShootJoystick").GetComponent<RectTransform>().gameObject;
-        if (pauseButton == null) pauseButton = transform.Find("GameUI/PauseButon").GetComponent<RectTransform>().gameObject;*/
+        if (pauseButton == null) pauseButton = transform.Find("GameUI/PauseButon").GetComponent<RectTransform>().gameObject;
     }
 
     public void ToggleTouchControls(bool toggle)
@@ -81,6 +83,11 @@ public class GameUI : MonoBehaviour
         livesTxt.text = lives + "x";
     }
 
+    public void UpdateCashText(int cash)
+    {
+        cashTxt.text = "Cash: $" + cash;
+    }
+
     public void AdjustScore(int adjustment)
     {
         score += adjustment;
@@ -88,7 +95,7 @@ public class GameUI : MonoBehaviour
         {
             score = 0;
         }
-        scoreTxt.text = "Score: " + score;
+        cashTxt.text = "Score: " + score;
     }
 
     public int GetScore()

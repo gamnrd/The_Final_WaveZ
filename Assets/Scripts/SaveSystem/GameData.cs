@@ -7,7 +7,7 @@ using UnityEngine;
 public class GameData
 {
     //Money
-    public int totalMoney;
+    public int totalCash;
 
     //Player stats
     public int maxHealth;
@@ -24,9 +24,7 @@ public class GameData
 
     public GameData()
     {
-        totalMoney = 0;
+        totalCash = 0;
         maxHealth = 10;
-
-
     }
 }

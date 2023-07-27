@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    AsyncOperation scene;
+    
     [SerializeField] private GameObject startScreen;
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private Image loadingBar;
@@ -41,20 +41,40 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        scene = SceneManager.LoadSceneAsync("Game");
+        AsyncOperation scene = SceneManager.LoadSceneAsync("Game");
         startScreen.SetActive(false);
         loadingScreen.SetActive(true);
-        StartCoroutine(LoadingScreen());
-        
+        StartCoroutine(LoadingScreen(scene));
     }
 
-    IEnumerator LoadingScreen()
+    public void StartWave()
+    {
+        AsyncOperation playerScene = SceneManager.LoadSceneAsync("WavePlayerScene");
+        AsyncOperation worldScene = SceneManager.LoadSceneAsync("Wave_Test", LoadSceneMode.Additive);
+        startScreen.SetActive(false);
+        loadingScreen.SetActive(true);
+        StartCoroutine(LoadingScreen(playerScene, worldScene));
+    }
+
+    IEnumerator LoadingScreen(AsyncOperation scene)
     {
         float loadProgess = 0;
 
         while(!scene.isDone)
         {
             loadProgess += scene.progress;
+            loadingBar.fillAmount = loadProgess;
+            yield return null;
+        }
+    }
+
+    IEnumerator LoadingScreen(AsyncOperation playerScene, AsyncOperation worldScene)
+    {
+        float loadProgess = 0;
+
+        while (!playerScene.isDone && !worldScene.isDone)
+        {
+            loadProgess += (playerScene.progress + worldScene.progress) / 2;
             loadingBar.fillAmount = loadProgess;
             yield return null;
         }

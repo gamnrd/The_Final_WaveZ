@@ -22,19 +22,26 @@ public class Bullet : AutoDestroyPoolableObject
             {
                 PoolableObject instance = ParticlePoolManager.instance.bloodPool.GetObject();
                 if (instance != null)
+                {
                     instance.transform.localPosition = transform.position;
+                    instance.transform.rotation = transform.rotation;
+                }
             }
             //Else spawn sparks
             else
             {
                 PoolableObject instance = ParticlePoolManager.instance.sparkPool.GetObject();
                 if (instance != null)
+                {
                     instance.transform.localPosition = transform.position;
+                    instance.transform.rotation = transform.rotation;
+                }
             }
 
             Disable();
         }
     }
+
 
     public override void OnEnable()
     {
@@ -48,10 +55,5 @@ public class Bullet : AutoDestroyPoolableObject
         //Invoke("MoveToPool", 0.1f);
         rb.velocity = Vector3.zero;
         base.OnDisable();
-    }
-
-    public void MoveToPool()
-    {
-        //transform.SetParent(GameObject.Find("Bullet Pool").transform);
     }
 }

@@ -78,7 +78,7 @@ public class PlayerHealth : MonoBehaviour
         if (Time.time - lastTimeHit < hitTimer || !isAlive) return;
 
         lastTimeHit = Time.time;
-        src.PlayOneShot(hurt, 0.7f);
+        src.PlayOneShot(hurt, 0.5f);
         //damage player
         curHealth = Mathf.Max(curHealth - damageAmount, 0);
         GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);

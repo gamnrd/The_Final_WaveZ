@@ -38,9 +38,17 @@ public static class SaveSystem
         return data;
     }
 
+    public static void DeleteSave()
+    {
+        GameData emptyData = new GameData();
+        Save(emptyData);
+    }
+
     public static string GetPath()
     {
         //Path to save data
         return Application.persistentDataPath + "/data.GN";
     }
+
+
 }

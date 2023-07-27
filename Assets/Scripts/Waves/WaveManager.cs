@@ -10,7 +10,7 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField] private int waveNum;
     [SerializeField] public int waveMax;
-    [SerializeField] public int enemiesKilled;
+    [SerializeField] public int enemiesToKill;
     [SerializeField] public int enemiesSpawned;
     [SerializeField] public int spawnMax;
 
@@ -37,10 +37,10 @@ public class WaveManager : MonoBehaviour
     {
         waveNum = 1;
         waveMax = 10;
-        enemiesKilled = 0;
         enemiesSpawned = 0;
         spawnMax = 10;
-        UpdateWaveText(waveNum, enemiesKilled, spawnMax);
+        enemiesToKill = spawnMax;
+        UpdateWaveText(waveNum, enemiesToKill, spawnMax);
     }
 
     public void EnemySpawned(int amount)
@@ -51,10 +51,10 @@ public class WaveManager : MonoBehaviour
     // Update is called once per frame
     public void ZombieKilled()
     {
-        enemiesKilled++;
-        UpdateWaveText(waveNum, enemiesKilled, spawnMax);
+        enemiesToKill--;
+        UpdateWaveText(waveNum, enemiesToKill, spawnMax);
 
-        if (enemiesKilled >= spawnMax)
+        if (enemiesToKill <= 0)
         {
             EndWave();
         }
@@ -63,7 +63,7 @@ public class WaveManager : MonoBehaviour
 
     public void UpdateWaveText(int wave, int kills, int zombieMax)
     {
-        waveTrackerText.text = $"Wave: {wave}\nKills: {kills} / {zombieMax}";  
+        waveTrackerText.text = $"Wave: {wave}\nZombies: {kills} / {zombieMax}";  
     }
 
     public bool CanSpawn()
@@ -74,11 +74,11 @@ public class WaveManager : MonoBehaviour
     private void EndWave()
     {
         waveNum++;
-        enemiesKilled = 0;
         enemiesSpawned = 0;
         spawnMax += 5;
-        UpdateWaveText(waveNum, enemiesKilled, spawnMax);
-
+        enemiesToKill = spawnMax;
+        UpdateWaveText(waveNum, enemiesToKill, spawnMax);
+        PlayerStats.instance.SaveStats();
 
         if (waveNum > waveMax)
         {

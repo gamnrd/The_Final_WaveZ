@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1916187824745006811}
   - component: {fileID: 4037355694517924078}
   - component: {fileID: 4037355694517924077}
+  - component: {fileID: 6574864646760361410}
   - component: {fileID: 4037355694517924076}
   - component: {fileID: 4037355694517924079}
   - component: {fileID: 4037355694517924075}
@@ -268,6 +269,7 @@ MonoBehaviour:
   moveJoystick: {fileID: 0}
   GroundedOffset: -0.14
   GroundedRadius: 0.28
+  input: {fileID: 0}
 --- !u!114 &4037355694517924078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,10 +304,26 @@ MonoBehaviour:
   curLives: 0
   maxLives: 3
   pauseMenu: {fileID: 0}
+  hitTimer: 1
   isAlive: 1
   deathEffect: {fileID: 52728485410541498, guid: 0ffd58a2442d69a48a07f6eea6d8cbc6, type: 3}
   die: {fileID: 8300000, guid: 54e6a2c6b5303d145adbd823a79330b2, type: 3}
   hurt: {fileID: 8300000, guid: c5ce462535f15de408a0c08ebe61c39c, type: 3}
+--- !u!114 &6574864646760361410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4037355694517924066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37e1ca01c0b18746abe4cc53b75f37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalCash: 0
+  maxHealth: 0
+  lives: 0
 --- !u!114 &4037355694517924076
 MonoBehaviour:
   m_ObjectHideFlags: 0
