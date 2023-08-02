@@ -44,9 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCountDown: 3
-  timer: 0
-  spawnRange: 70
-  distanceToPlayer: 0
+  spawnTimer: 0
+  despawnCountDown: 5
+  deSpawntimer: 0
   spawnPos: {x: 0, y: 0, z: 0}
-  spawnerPosRange: 10
-  checkerPrefab: {fileID: 8624863559394085102, guid: 08f2f712cbb58e54a95e203ec36747b5, type: 3}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
+  center: {x: 0, y: 0.25, z: 0}
+  size: {x: 10, y: 0.5, z: 10}

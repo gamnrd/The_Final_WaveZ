@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     float hInput, vInput;
     public FixedJoystick moveJoystick;
+    public FixedJoystick aimJoystick;
 
     private Camera playerCamera;
 
@@ -76,8 +77,8 @@ public class PlayerMovement : MonoBehaviour
             case Platform.Mobile:
                 hInput = moveJoystick.Horizontal;
                 vInput = moveJoystick.Vertical;
-
-                if (input.joystickAim.x != 0 || input.joystickAim.y != 0)
+                
+                if (aimJoystick.Horizontal != 0 || aimJoystick.Vertical != 0)
                 {
                     AimJoystick();
                 }
@@ -119,11 +120,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void AimJoystick()
     {
-        aimDirection = new Vector3(input.joystickAim.x * (-1), 0f, input.joystickAim.y * (-1)).normalized;
-        pos.rotation = Quaternion.Slerp(pos.rotation, Quaternion.LookRotation(aimDirection), 1f);
+        //aimDirection = new Vector3(input.joystickAim.x * (-1), 0f, input.joystickAim.y * (-1)).normalized;
+        aimDirection = new Vector3(aimJoystick.Horizontal * (-1), 0f, aimJoystick.Vertical * (-1)).normalized;
+        
         if (aimDirection != Vector3.zero)
         {
-            
+            pos.rotation = Quaternion.Slerp(pos.rotation, Quaternion.LookRotation(aimDirection), 1f);
         }
     }
 
@@ -186,51 +188,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MovePlayerWithAim()
-    {
-        //Controller or touch controls
-        /*if (input.platform == Platform.Console || input.platform == Platform.Mobile)
-        {
-            aimDirection = new Vector3 (input.joystickAim.x * (-1) , 0f, input.joystickAim.y * (-1));
-
-            if (aimDirection != Vector3.zero)
-            {
-                pos.rotation = Quaternion.Slerp(pos.rotation, Quaternion.LookRotation(aimDirection), 1f);
-            }
-        }*/
-
-
-        //Using Mouse and keyboard
-        /*if (input.platform == Platform.PC || input.platform == Platform.Web)
-        {
-            ray = playerCamera.ScreenPointToRay(input.mouseAim);
-
-            if (ground.Raycast(ray, out rayLength))
-            {
-                facing = ray.GetPoint(rayLength);
-                pos.LookAt(new Vector3(facing.x, pos.position.y, facing.z));
-            }
-        }*/
-        /*
-        Vector3 currentVelocity = rb.velocity;
-        if (input.platform == Platform.Mobile)
-        {
-            movement = new Vector3((-1) * moveJoystick.Horizontal, 0, (-1) * moveJoystick.Vertical).normalized;
-        }
-        else
-        {
-            movement = new Vector3((-1) * input.move.x, 0, (-1) * input.move.y);
-        }
-        */
-       /* if (movement != Vector3.zero)
-        {*//*
-            movement *= movSpeed;
-            Vector3 velocityChange = (movement - currentVelocity);
-            velocityChange = new Vector3(velocityChange.x, GetGravity(), velocityChange.z);
-            rb.velocity = velocityChange;*/
-       // }
-
-    }
 
     private bool OnGround()
     {

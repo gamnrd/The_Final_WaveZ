@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9925dad1f44a3c44bfa2238fdca40e8, type: 3}
+  m_Name: Bullet Damage Upgrade
+  m_EditorClassIdentifier: 
+  upgradeType: 0
+  upgradeIcon: {fileID: 21300000, guid: 05f77e35fdff1174cb77ffe5e16bde1e, type: 3}
+  upgradeName: Bullet Damage
+  upgradeCurLvl: 1
+  upgradeNxtLvl: 2
+  resourceIcon: {fileID: 21300000, guid: a615b9f401c8944f6bf75ab72e7593fe, type: 3}
+  resourceCostType: 0
+  baseCost: 1000
+  priceMultiplier: 50
+  upgradeLimit: 90
+  statUpgradeType: 5
+  statIncreaseAmount: 0.1

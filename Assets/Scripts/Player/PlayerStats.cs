@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats instance = null;
@@ -30,8 +31,6 @@ public class PlayerStats : MonoBehaviour
         data = SaveSystem.Load();
         totalCash = data.totalCash;
         maxHealth = data.maxHealth;
-
-        GameUI.Instance.UpdateCashText(totalCash);
     }
 
     public void AddCash(int amount)

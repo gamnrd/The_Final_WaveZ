@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a520335873bcd3249989cbbe75adce0f, type: 3}
+  m_Name: Health Shop
+  m_EditorClassIdentifier: 
+  shopName: Medical
+  shopUpgradeLevel: 1
+  isShopUnlocked: 1
+  upgrades:
+  - {fileID: 11400000, guid: ddbc23dc1e2afe14f8bddb95f1a7ca80, type: 2}
+  - {fileID: 11400000, guid: 35269c2849592084c810771f94432d7b, type: 2}
+  - {fileID: 11400000, guid: af21ca114eb6e824ea381e14543a15c3, type: 2}

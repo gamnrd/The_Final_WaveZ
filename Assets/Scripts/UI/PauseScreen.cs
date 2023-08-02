@@ -52,8 +52,15 @@ public class PauseScreen : MonoBehaviour
         GameUI.Instance.SetGameUI(true);
     }
 
+    public void ReturnToBase()
+    {
+        Time.timeScale = 1;
+        AsyncOperation scene = SceneManager.LoadSceneAsync("Idle_Base");
+    }
+
     public void MainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 

@@ -25,6 +25,7 @@ public class PlayerShoot : MonoBehaviour
 
     private PlayerHealth playerHealth;
     private InputController input;
+    [SerializeField] FixedJoystick aimJoystick;
 
     private void Awake()
     {
@@ -40,7 +41,7 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (input.platform == Platform.Mobile && input.joystickAim != Vector2.zero && Time.time - lastTimeShot > fireRate)
+        if (input.platform == Platform.Mobile && aimJoystick.Direction != Vector2.zero && Time.time - lastTimeShot > fireRate)
         {
             lastTimeShot = Time.time;
             Shoot();

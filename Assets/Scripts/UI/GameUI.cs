@@ -60,7 +60,7 @@ public class GameUI : MonoBehaviour
             moveJoystick.SetActive(false);
             shootJoystick.SetActive(false);
             pauseButton.SetActive(false);
-            miniMap.SetActive(false);
+            miniMap.SetActive(true);
         }
     }
 
@@ -73,7 +73,7 @@ public class GameUI : MonoBehaviour
 
     public void UpdateHealthBars(int curHealth, int maxHealth)
     {
-        healthImg.fillAmount = (float)((float)curHealth / (float)maxHealth);
+        healthImg.fillAmount = (float)curHealth / (float)maxHealth;
         healthTxt.text = "Health: " + curHealth + " / " + maxHealth + "";
     }
 

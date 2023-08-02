@@ -90,7 +90,13 @@ public class ZombieHealth : DestroyPoolableObject
             //movement.enabled = false;
             anim.SetTrigger("Dead");
             src.PlayOneShot(die, 0.7f);
-            PlayerStats.instance.AddCash(cashOnKill);
+
+
+            //TODO
+            //PlayerStats.instance.AddCash(cashOnKill);
+            GameUI.Instance.UpdateCashText(PlayerDataManager.instance.data.totalCash);
+            PlayerDataManager.instance.AddResource(ResourceType.Cash, cashOnKill);
+
 
             if (GameManager.instance.gameMode == GameMode.Wave)
             {

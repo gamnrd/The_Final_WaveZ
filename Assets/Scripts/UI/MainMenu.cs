@@ -50,10 +50,18 @@ public class MainMenu : MonoBehaviour
     public void StartWave()
     {
         AsyncOperation playerScene = SceneManager.LoadSceneAsync("WavePlayerScene");
-        AsyncOperation worldScene = SceneManager.LoadSceneAsync("Wave_Test", LoadSceneMode.Additive);
+        AsyncOperation worldScene = SceneManager.LoadSceneAsync("Wave_World1_Hospital", LoadSceneMode.Additive);
         startScreen.SetActive(false);
         loadingScreen.SetActive(true);
         StartCoroutine(LoadingScreen(playerScene, worldScene));
+    }    
+    
+    public void StartIdle()
+    {
+        AsyncOperation scene = SceneManager.LoadSceneAsync("Idle_Base");
+        startScreen.SetActive(false);
+        loadingScreen.SetActive(true);
+        StartCoroutine(LoadingScreen(scene));
     }
 
     IEnumerator LoadingScreen(AsyncOperation scene)

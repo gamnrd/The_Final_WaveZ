@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 1916187824745006811}
   - component: {fileID: 4037355694517924078}
   - component: {fileID: 4037355694517924077}
-  - component: {fileID: 6574864646760361410}
   - component: {fileID: 4037355694517924076}
   - component: {fileID: 4037355694517924079}
   - component: {fileID: 4037355694517924075}
@@ -244,7 +243,19 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9c2ddbb9-1e5d-42f8-9668-a65101321223
     m_ActionName: Player/Pause[/Keyboard/escape]
-  m_NeverAutoSwitchControlSchemes: 0
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c9c42ea4-b679-4feb-b4ac-6b00ad111ee7
+    m_ActionName: Player/TouchInput[/Simulated Touchscreen/primaryTouch,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e3d3eb67-60a4-40b3-8a18-519f97274622
+    m_ActionName: Player/TouchPress[/Simulated Touchscreen/primaryTouch/press]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1d0b4720-ec7f-43b1-8e3b-2f81ab3689b0
+    m_ActionName: Player/TouchHold[/Simulated Touchscreen/primaryTouch/position]
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
@@ -300,7 +311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curHealth: 0
-  maxHealth: 10
+  maxHealth: 1
   curLives: 0
   maxLives: 3
   pauseMenu: {fileID: 0}
@@ -309,21 +320,6 @@ MonoBehaviour:
   deathEffect: {fileID: 52728485410541498, guid: 0ffd58a2442d69a48a07f6eea6d8cbc6, type: 3}
   die: {fileID: 8300000, guid: 54e6a2c6b5303d145adbd823a79330b2, type: 3}
   hurt: {fileID: 8300000, guid: c5ce462535f15de408a0c08ebe61c39c, type: 3}
---- !u!114 &6574864646760361410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4037355694517924066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37e1ca01c0b18746abe4cc53b75f37d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalCash: 0
-  maxHealth: 0
-  lives: 0
 --- !u!114 &4037355694517924076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +454,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4037355694517924066}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: beca75a7f92a8dc439a2da895ffe7918, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.75

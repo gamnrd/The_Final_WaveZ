@@ -78,7 +78,7 @@ public class WaveManager : MonoBehaviour
         spawnMax += 5;
         enemiesToKill = spawnMax;
         UpdateWaveText(waveNum, enemiesToKill, spawnMax);
-        PlayerStats.instance.SaveStats();
+        PlayerDataManager.instance.SaveStats();
 
         if (waveNum > waveMax)
         {

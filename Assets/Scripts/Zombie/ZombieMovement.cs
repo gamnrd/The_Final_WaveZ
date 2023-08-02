@@ -28,7 +28,7 @@ public class ZombieMovement : MonoBehaviour
 
     private int skinNum;
     private bool spawned = false;
-    private float spawnCooldown = 1f;
+    private float spawnCooldown = 1.5f;
 
     //Walk aimlesly
 

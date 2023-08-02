@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameMode : short { Wave, Story};
+public enum GameMode : short { Wave, Story, Idle};
 
 public class GameManager : MonoBehaviour
 {

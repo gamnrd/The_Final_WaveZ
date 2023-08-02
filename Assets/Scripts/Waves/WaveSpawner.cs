@@ -84,6 +84,7 @@ public class WaveSpawner : MonoBehaviour
 
             //Move zombie to spawn point
             instance.transform.localPosition = spawnPos;
+            instance.transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
             instance.GetComponent<ZombieHealth>().enabled = true;
 
             lastSpawnTime = Time.time;

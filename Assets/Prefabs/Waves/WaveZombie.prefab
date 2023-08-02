@@ -1279,10 +1279,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBeingUsed: 0
   totalHealth: 3
-  cashOnKill: 10
   src: {fileID: -5876733262170564479}
   die: {fileID: 8300000, guid: 4eeba8e459b097d44b5cc22a0873af94, type: 3}
   isAlive: 0
+  cashOnKill: 10
 --- !u!114 &3341316440202127963
 MonoBehaviour:
   m_ObjectHideFlags: 0
