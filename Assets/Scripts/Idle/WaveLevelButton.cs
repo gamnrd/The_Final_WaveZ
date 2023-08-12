@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -16,7 +15,8 @@ public class WaveLevelButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LvlNum;
     [SerializeField] private TextMeshProUGUI LvlName;
     [SerializeField] private RectTransform rewardsContainer;
-
+    [SerializeField] private GameEvent loadLevel;
+    [SerializeField] private GameEvent unloadScene;
     private Button button;
 
     private void Awake()
@@ -47,10 +47,9 @@ public class WaveLevelButton : MonoBehaviour
 
     public void StartLevel()
     {
-        AsyncOperation playerScene = SceneManager.LoadSceneAsync("WavePlayerScene");
-        AsyncOperation worldScene = SceneManager.LoadSceneAsync(levelData.levelSceneName, LoadSceneMode.Additive);
-
-
+        GameManager.instance.levelNum = levelData.levelNum;
+        unloadScene.Raise(this, "Idle_Base");
+        loadLevel.Raise(this, levelData.levelSceneName);
     }
 
     public void CheckLevelUnlocked()

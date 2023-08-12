@@ -19,7 +19,8 @@ public class CameraController : MonoBehaviour
 
 
     // Update is called once per frame
-    void LateUpdate()
+    //void LateUpdate()
+    void Update()
     {
         if (player != null)
         {
@@ -27,4 +28,21 @@ public class CameraController : MonoBehaviour
             pos.position = Vector3.Lerp(pos.position, targetPos, cameraSmoothing * Time.deltaTime);
         }
     }
+
+
+    /*
+     * 
+     * 
+    // Update is called once per frame
+    //void LateUpdate()
+    private void FixedUpdate()
+    {
+        if (player != null)
+        {
+            targetPos = player.position + offset;
+            //pos.position = Vector3.Lerp(pos.position, targetPos, cameraSmoothing * Time.deltaTime);
+            pos.position = targetPos;
+        }
+    }*/
+
 }

@@ -513,10 +513,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
+  m_fontSize: 64.9
   m_fontSizeBase: 60
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -754,6 +754,8 @@ MonoBehaviour:
   LvlNum: {fileID: 8255122844142458973}
   LvlName: {fileID: 8255122843923976358}
   rewardsContainer: {fileID: 7369910046682124953}
+  loadLevel: {fileID: 11400000, guid: 32d33af6f540ea649b3d0b8ab7bd12fc, type: 2}
+  unloadScene: {fileID: 11400000, guid: d812ca7357a6cd34a92b438ff8f3e340, type: 2}
 --- !u!222 &8255122844208474677
 CanvasRenderer:
   m_ObjectHideFlags: 0

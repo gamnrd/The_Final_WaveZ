@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PauseScreen : MonoBehaviour
 {
@@ -10,14 +9,20 @@ public class PauseScreen : MonoBehaviour
 
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject mainScreen;
-    [SerializeField] private GameObject aboutScreen;
+
+    [Header("Events")]
+    [SerializeField] private GameEvent toggleGameUI;
+    [SerializeField] private GameEvent toggleSettings;
+    [SerializeField] private GameEvent loadScene;
+    [SerializeField] private GameEvent unloadLevel;
+
+
 
     private void Awake()
     {
         Instance = this;
-        if (pauseUI == null) pauseUI = transform.Find("PauseUI").GetComponent<RectTransform>().gameObject;
-        if (mainScreen == null) mainScreen = transform.Find("PauseUI/MainScreen").GetComponent<RectTransform>().gameObject;
-        if (aboutScreen == null) aboutScreen = transform.Find("PauseUI/AboutScreen").GetComponent<RectTransform>().gameObject;
+        if (pauseUI == null) pauseUI = transform.Find("PauseCanvas").GetComponent<RectTransform>().gameObject;
+        if (mainScreen == null) mainScreen = transform.Find("PauseCanvas/Pause_Main").GetComponent<RectTransform>().gameObject;
     }
 
     private void Start()
@@ -36,10 +41,9 @@ public class PauseScreen : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0;
-        GameUI.Instance.SetGameUI(false);
+        toggleGameUI.Raise(this, false);
         pauseUI.gameObject.SetActive(true);
         mainScreen.gameObject.SetActive(true);
-        aboutScreen.gameObject.SetActive(false);
     }    
     
     public void ResumeGame()
@@ -48,20 +52,28 @@ public class PauseScreen : MonoBehaviour
         Time.timeScale = 1;
         pauseUI.SetActive(false);
         mainScreen.SetActive(false);
-        aboutScreen.SetActive(false);
-        GameUI.Instance.SetGameUI(true);
+        toggleGameUI.Raise(this, true);
     }
 
     public void ReturnToBase()
     {
         Time.timeScale = 1;
-        AsyncOperation scene = SceneManager.LoadSceneAsync("Idle_Base");
+        unloadLevel.Raise(this, GameManager.instance.currentSceneName);
+        loadScene.Raise(this, "Idle_Base");
+        //AsyncOperation scene = SceneManager.LoadSceneAsync("Idle_Base");
     }
 
     public void MainMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenu");
+        unloadLevel.Raise(this, GameManager.instance.currentSceneName);
+        loadScene.Raise(this, "MainMenu");
+        //SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Settings()
+    {
+        toggleSettings.Raise(this, true);
     }
 
     #endregion PauseMenu

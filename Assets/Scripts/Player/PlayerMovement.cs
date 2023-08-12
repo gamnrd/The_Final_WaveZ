@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private LayerMask groundLayers;
+    Vector3 spherePosition;
     Vector3 movement;
 
     float hInput, vInput;
@@ -26,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public float GroundedOffset = -0.14f;
     public float GroundedRadius = 0.28f;
 
-    [SerializeField] private InputController input;
+    private InputController input;
 
     //Aim mouse
     private Ray ray;
@@ -38,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerHealth playerHealth;
 
-
+    [SerializeField] private GameEvent toggleTouchControls;
 
     private void Awake()
     {
@@ -51,8 +52,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        GameUI.Instance.ToggleTouchControls(input.platform == Platform.Mobile);
+        toggleTouchControls.Raise(this, input.platform == Platform.Mobile);
         InvokeRepeating("OnGround", 0f, 0.25f);
+        InvokeRepeating("ResetBodyPosition", 1f, 1f);
+        movSpeed = PlayerDataManager.instance.data.playerSpeed;
     }
 
     // Update is called once per frame
@@ -129,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Get the mouse position and have the player face it
     private void AimMouse()
     {
         ray = playerCamera.ScreenPointToRay(input.mouseAim);
@@ -136,27 +140,12 @@ public class PlayerMovement : MonoBehaviour
         if (ground.Raycast(ray, out rayLength))
         {
             facing = ray.GetPoint(rayLength);
-            pos.LookAt(new Vector3(facing.x, pos.position.y, facing.z));
+            pos.LookAt(new Vector3(facing.x, pos.position.y, facing.z)); 
         }
     }
 
 
-    #region Aim Mouse
-    //Get the mouse position and have the player face it
-    private void FaceMouse()
-    {
-        ray = playerCamera.ScreenPointToRay(input.mouseAim);
-
-        if (ground.Raycast(ray, out rayLength))
-        {
-            facing = ray.GetPoint(rayLength);
-            pos.LookAt(new Vector3(facing.x, pos.position.y, facing.z));
-        }
-    }
-    #endregion Aim Mouse
-
-
-
+    //TODO Revamp pause screen
     //Get player controls
     public void PauseGame(InputAction.CallbackContext context)
     {
@@ -192,13 +181,20 @@ public class PlayerMovement : MonoBehaviour
     private bool OnGround()
     {
         // set sphere position, with offset
-        Vector3 spherePosition = new Vector3(pos.position.x, pos.position.y - GroundedOffset,
+        spherePosition = new Vector3(pos.position.x, pos.position.y - GroundedOffset,
             pos.position.z);
         isGrounded = Physics.CheckSphere(spherePosition, GroundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
+
         return isGrounded;
     }
 
+    private void ResetBodyPosition()
+    {
+        //Reset players body local pos and rot to zero
+        playerHealth.playerBody.transform.localPosition = Vector3.zero;
+        playerHealth.playerBody.transform.localRotation = Quaternion.identity;
+    }
 
     private float GetGravity()
     {

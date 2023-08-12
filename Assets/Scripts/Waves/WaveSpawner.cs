@@ -6,11 +6,11 @@ public class WaveSpawner : MonoBehaviour
 {
     [SerializeField] private float spawnCountDownMin = 2;
     [SerializeField] private float spawnCountDownMax = 5;
-    [SerializeField] private float spawnDelay = 0;
     [SerializeField] private float lastSpawnTime = 0;
     [SerializeField] private Vector3 spawnPos = Vector3.zero;
     private int spawnAttemptLimt = 3;
     private int spawnAttempts = 0;
+    private ZombieStats stats = new ZombieStats();
 
     //Raycast
     private bool isSpawnPointInvalid = false;
@@ -31,8 +31,6 @@ public class WaveSpawner : MonoBehaviour
 
     void Start()
     {
-        //Start time
-        spawnDelay = Random.Range(spawnCountDownMin, spawnCountDownMax);
         InvokeRepeating("CheckForSpawn", 3f, 1f);
     }
 
@@ -56,7 +54,6 @@ public class WaveSpawner : MonoBehaviour
 
             //Create a random spawn point within the spawn zone
             spawnPos = center + new Vector3(Random.Range(-size.x / 2, size.x / 2), 0, Random.Range(-size.z / 2, size.z / 2));
-
             //Use a raycast sphere with the zombies radius to check that the spawn point is clear of other objects
             ray = new Ray(transform.position + new Vector3(spawnPos.x, 10, spawnPos.z), Vector3.down);
             //Start from Ray pos, radius, output hit, distance, layers to hit
@@ -74,22 +71,30 @@ public class WaveSpawner : MonoBehaviour
             //While the spawn point is not too close to the player and the spawn point is not inside another object
         } while (isSpawnPointInvalid);
 
-
         //Spawn Zombie
-        PoolableObject instance = WaveZombieCounter.Instance.zombiePool.GetObject();
+        PoolableObject instance = WaveManager.Instance.zombiePool.GetObject();
         if (instance != null)
         {
+            instance.GetComponent<ZombieHealth>().stats = stats;
+            instance.GetComponent<ZombieHealth>().enabled = true;
+
+            instance.GetComponent<ZombieMovement>().stats = stats;
+
             //Set zombie as child to spawner
             instance.transform.SetParent(transform, false);
 
             //Move zombie to spawn point
-            instance.transform.localPosition = spawnPos;
-            instance.transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
-            instance.GetComponent<ZombieHealth>().enabled = true;
-
+            instance.transform.localPosition = new Vector3(spawnPos.x, 0, spawnPos.z);
             lastSpawnTime = Time.time;
         }
-        WaveZombieCounter.Instance.IncrementCount();
         WaveManager.Instance.EnemySpawned(1);
+    }
+
+    public void SetStats(Component sender, object data)
+    {
+        if (data is ZombieStats newStats)
+        {
+            stats = newStats;
+        }
     }
 }

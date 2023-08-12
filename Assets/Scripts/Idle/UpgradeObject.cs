@@ -4,7 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public enum UpgradeType { Stat, Resource, OneTime}
-public enum StatUpgradeType : short { None, Health, Defence, MoveSpeed, FireRate, BulletDamage };
+public enum StatUpgradeType : short { None, Health, Defence, PlayerSpeed, FireRate, BulletDamage };
+
+[System.Serializable]
+public class UpgradeCost
+{ 
+    public ResourceType resourceCostType;
+    public int baseCost;
+    public int priceMultiplier;
+}
 
 [CreateAssetMenu(fileName = "Upgrade", menuName = "Idle/Upgrade", order = 2)]
 public class UpgradeObject : ScriptableObject
@@ -16,16 +24,11 @@ public class UpgradeObject : ScriptableObject
 
     [Header("Description")]
     public string upgradeName;
-    public int upgradeCurLvl;
-    public int upgradeNxtLvl;
+    public int upgradeLimit;
 
     [Header("Cost")]
-    public Sprite resourceIcon;
-    public ResourceType resourceCostType;
-    public int baseCost;
-    public float priceMultiplier;
-    public int upgradeLimit;
-    
+    public UpgradeCost[] cost;
+
     [Header("Stat Upgrade")]
     public StatUpgradeType statUpgradeType;
     public float statIncreaseAmount;

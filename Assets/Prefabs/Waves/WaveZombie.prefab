@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3950661064e05a944b22b804fe01ad14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 30
+  radius: 40
   isPlayerNear: 0
 --- !u!1 &509194075630540145
 GameObject:
@@ -1212,9 +1212,10 @@ GameObject:
   - component: {fileID: 509194075621158679}
   - component: {fileID: 509194074922521068}
   - component: {fileID: 6582043061938918352}
-  - component: {fileID: 509194074922521067}
   - component: {fileID: 509194075630608654}
   - component: {fileID: -5876733262170564479}
+  - component: {fileID: 3432965620482097312}
+  - component: {fileID: 6787944923339359720}
   m_Layer: 7
   m_Name: WaveZombie
   m_TagString: Zombie
@@ -1278,11 +1279,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBeingUsed: 0
-  totalHealth: 3
-  src: {fileID: -5876733262170564479}
+  curHealth: 0
   die: {fileID: 8300000, guid: 4eeba8e459b097d44b5cc22a0873af94, type: 3}
   isAlive: 0
-  cashOnKill: 10
+  rb: {fileID: 509194074922521068}
+  col: {fileID: 6582043061938918352}
+  src: {fileID: -5876733262170564479}
+  pool: {fileID: 0}
+  navAgent: {fileID: 509194075630608654}
+  movement: {fileID: 3341316440202127963}
+  stats:
+    walkSpeed: 1
+    pursuitSpeed: 5
+    damage: 1
+    attackRate: 3
+    maxHealth: 3
+  anim: {fileID: 509194075621158679}
+  onZombieDeath: {fileID: 11400000, guid: f3baa6d50bc260b459699351952c255b, type: 2}
 --- !u!114 &3341316440202127963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1295,14 +1308,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55af1ff99a689a4f8ed6b4d3139072a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    walkSpeed: 1
+    pursuitSpeed: 5
+    damage: 1
+    attackRate: 3
+    maxHealth: 3
   zombieState: 1
-  walkSpeed: 1
-  pursuitSpeed: 5
   isPlayerNear: {fileID: 0}
-  damage: 1
   attackDistance: 2
-  attackRate: 3
   lastAttackTime: 0
+  hitPlayer: {fileID: 11400000, guid: 1e5b24507d8fe9c49b67bd2efeca173a, type: 2}
   src: {fileID: -5876733262170564479}
   attack: {fileID: 8300000, guid: c39371bea067dfe45bf9b593b55b42a1, type: 3}
 --- !u!95 &509194075621158679
@@ -1333,8 +1349,8 @@ Rigidbody:
   m_GameObject: {fileID: 509194075630608641}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 5
-  m_AngularDrag: 0.08
+  m_Drag: 7.5
+  m_AngularDrag: 0.01
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1347,27 +1363,13 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509194075630608641}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: beca75a7f92a8dc439a2da895ffe7918, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
---- !u!64 &509194074922521067
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509194075630608641}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: dbbc53a6bc8f5c64bb234194ce1380aa, type: 3}
 --- !u!195 &509194075630608654
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1379,10 +1381,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 3
-  m_Acceleration: 5
+  m_Acceleration: 200
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 240
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1486,6 +1488,47 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3432965620482097312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509194075630608641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58a14ae82783c743b97ccb19f121df7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: ef4bf103fb2db99439d9fe6de227befc, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3341316440202127963}
+        m_TargetAssemblyTypeName: ZombieMovement, Assembly-CSharp
+        m_MethodName: ResetState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &6787944923339359720
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509194075630608641}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.28, y: 1, z: 1.79}
+  m_Center: {x: 0, y: 1.62, z: 1.13}
 --- !u!1 &509194075630613953
 GameObject:
   m_ObjectHideFlags: 0

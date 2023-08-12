@@ -15,13 +15,14 @@ public class ObjectPool
 
 
     //Create object pool
-    public static ObjectPool CreateInstance(PoolableObject prefab, int size, string poolName)
+    public static ObjectPool CreateInstance(PoolableObject prefab, int size, string poolName, Transform parent)
     {
         //Start new pool
         ObjectPool pool = new ObjectPool(prefab, size);
 
         //Create the parent that stores all the objects give it the prefab name pool
         GameObject poolObject = new GameObject(poolName);
+        poolObject.transform.SetParent(parent);
         pool.CreateObjects(poolObject.transform, size);
 
         return pool;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a520335873bcd3249989cbbe75adce0f, type: 3}
   m_Name: Health Shop
   m_EditorClassIdentifier: 
-  shopName: Medical
+  shopName: Health Shop
   shopUpgradeLevel: 1
   isShopUnlocked: 1
   upgrades:

@@ -15,12 +15,22 @@ MonoBehaviour:
   upgradeType: 0
   upgradeIcon: {fileID: 21300000, guid: 1d2918c4d6004fe43bc62f2735305bc1, type: 3}
   upgradeName: Fire Rate
-  upgradeCurLvl: 1
-  upgradeNxtLvl: 2
-  resourceIcon: {fileID: 21300000, guid: a615b9f401c8944f6bf75ab72e7593fe, type: 3}
-  resourceCostType: 0
-  baseCost: 100
-  priceMultiplier: 50
-  upgradeLimit: 90
+  upgradeLimit: 2
+  cost:
+  - resourceCostType: 0
+    baseCost: 500
+    priceMultiplier: 500
+  - resourceCostType: 1
+    baseCost: 500
+    priceMultiplier: 250
+  - resourceCostType: 2
+    baseCost: 500
+    priceMultiplier: 250
+  - resourceCostType: 3
+    baseCost: 500
+    priceMultiplier: 250
+  - resourceCostType: 4
+    baseCost: 500
+    priceMultiplier: 250
   statUpgradeType: 4
-  statIncreaseAmount: 0.1
+  statIncreaseAmount: 0.08

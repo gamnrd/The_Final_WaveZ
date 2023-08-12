@@ -23,7 +23,15 @@ public class CheckPlayerNear : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (!isPlayerNear && other.gameObject.CompareTag("Player"))
+        {
+            isPlayerNear = true;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!isPlayerNear && other.gameObject.CompareTag("Player"))
         {
             isPlayerNear = true;
         }
@@ -31,7 +39,7 @@ public class CheckPlayerNear : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (isPlayerNear && other.gameObject.CompareTag("Player"))
         {
             isPlayerNear = false;
         }

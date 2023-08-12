@@ -12,16 +12,17 @@ public class ShopUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI shopTitleText;
 
-    [Header("Resource Text")]
-    [SerializeField] private TextMeshProUGUI cashText;
-    [SerializeField] private TextMeshProUGUI woodText;
-    [SerializeField] private TextMeshProUGUI scrapsText;
-    [SerializeField] private TextMeshProUGUI gasText;
-    [SerializeField] private TextMeshProUGUI energyText;
+    [Header("Stats Text")]
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private TextMeshProUGUI defenceText;
+    [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TextMeshProUGUI bulletDamageText;
+    [SerializeField] private TextMeshProUGUI fireRateText;
 
     [Header("Upgrades")]
     [SerializeField] private RectTransform upgradeParent;
 
+    
 
     private void Awake()
     {
@@ -36,36 +37,42 @@ public class ShopUI : MonoBehaviour
         //Get all UI Elements if they are not set
         if (shopTitleText == null) shopTitleText = transform.Find("ShopCanvas/ShopScreen/TopBar/ShopTitleText").GetComponent<TextMeshProUGUI>();
 
-        if (cashText == null) cashText = transform.Find("ShopCanvas/ShopScreen/Resources_LeftMenu/Cash/Text_Value").GetComponent<TextMeshProUGUI>();
-        if (woodText == null) woodText = transform.Find("ShopCanvas/ShopScreen/Resources_LeftMenu/Wood/Text_Value").GetComponent<TextMeshProUGUI>();
-        if (scrapsText == null) scrapsText = transform.Find("ShopCanvas/ShopScreen/Resources_LeftMenu/Scraps/Text_Value").GetComponent<TextMeshProUGUI>();
-        if (gasText == null) gasText = transform.Find("ShopCanvas/ShopScreen/Resources_LeftMenu/Gas/Text_Value").GetComponent<TextMeshProUGUI>();
-        if (energyText == null) energyText = transform.Find("ShopCanvas/ShopScreen/Resources_LeftMenu/Energy/Text_Value").GetComponent<TextMeshProUGUI>();
+        if (healthText == null) healthText = transform.Find("ShopCanvas/ShopScreen/PlayerStatsPanel/Health/Value").GetComponent<TextMeshProUGUI>();
+        if (defenceText == null) defenceText = transform.Find("ShopCanvas/ShopScreen/PlayerStatsPanel/Defence/Value").GetComponent<TextMeshProUGUI>();
+        if (speedText == null) speedText = transform.Find("ShopCanvas/ShopScreen/PlayerStatsPanel/Speed/Value").GetComponent<TextMeshProUGUI>();
+        if (bulletDamageText == null) bulletDamageText = transform.Find("ShopCanvas/ShopScreen/PlayerStatsPanel/BulletDamage/Value").GetComponent<TextMeshProUGUI>();
+        if (fireRateText == null) fireRateText = transform.Find("ShopCanvas/ShopScreen/PlayerStatsPanel/FireRate/Value").GetComponent<TextMeshProUGUI>();
+
 
         if (upgradeParent == null) upgradeParent = transform.Find("ShopCanvas/ShopScreen/UpgradesPanel/Content/UpgradeContainer").GetComponent<RectTransform>();
 
     }
 
-    public void SetupShop(Shop _shop)
+    public void SetupShop(Component sender, object data)
     {
-        if (_shop == null)
-            return;
-
-        IdleManager.instance.menuActive = true;
-        shopCanvas.SetActive(true);
-        shopTitleText.text = _shop.shopObject.shopName;
-        cashText.text = PlayerDataManager.instance.data.totalCash.ToString("n0");
-        woodText.text = PlayerDataManager.instance.data.totalWood.ToString("n0");
-        scrapsText.text = PlayerDataManager.instance.data.totalScraps.ToString("n0");
-        gasText.text = PlayerDataManager.instance.data.totalGas.ToString("n0");
-        energyText.text = PlayerDataManager.instance.data.totalEnergy.ToString("n0");
-
-        foreach (UpgradeObject _upgrade in _shop.shopObject.upgrades)
+        if (data is Shop _shop)
         {
-            UpgradeButton obj = Instantiate(btnPrefab, Vector3.zero, Quaternion.identity, upgradeParent.gameObject.transform);
-            obj.upgrade = _upgrade;
-            obj.CreateButton();
+            IdleManager.instance.menuActive = true;
+            shopCanvas.SetActive(true);
+            shopTitleText.text = _shop.shopObject.shopName;
+            SetupPlayerStats();
+
+            foreach (UpgradeObject _upgrade in _shop.shopObject.upgrades)
+            {
+                UpgradeButton obj = Instantiate(btnPrefab, Vector3.zero, Quaternion.identity, upgradeParent.gameObject.transform);
+                obj.upgrade = _upgrade;
+                obj.CreateButton();
+            }
         }
+    }
+
+    public void SetupPlayerStats()
+    {
+        healthText.text = PlayerDataManager.instance.data.maxHealth.ToString();
+        defenceText.text = PlayerDataManager.instance.data.defence.ToString();
+        speedText.text = PlayerDataManager.instance.data.playerSpeed.ToString();
+        bulletDamageText.text = PlayerDataManager.instance.data.bulletDamage.ToString();
+        fireRateText.text = PlayerDataManager.instance.data.fireRate.ToString();
     }
 
     public void CloseShop()
@@ -84,13 +91,4 @@ public class ShopUI : MonoBehaviour
     {
         SetupShop();
     }*/
-
-    public void Test(GameObject btn)
-    {
-        if (btn.TryGetComponent<UpgradeButton>(out UpgradeButton upgradeButton))
-        {
-            Debug.Log(upgradeButton.upgrade.upgradeName);
-        }
-        
-    }
 }

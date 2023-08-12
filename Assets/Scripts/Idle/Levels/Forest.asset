@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Forest
   m_EditorClassIdentifier: 
   levelNum: 2
-  image: {fileID: 21300000, guid: 9af180cd85cbb4bb0b06a0426e9473b6, type: 3}
+  image: {fileID: 21300000, guid: 8d28d8c2367ce428a9b6b4ded755e044, type: 3}
   levelSubText: Level Two
-  levelMainText: Forest
+  levelMainText: Forest (Not Available)
   levelSceneName: Wave_World1_Forest
   rewards:
   - {fileID: 5911298325727374878, guid: 41c800e2f7c72404abb88a77223ccde7, type: 3}

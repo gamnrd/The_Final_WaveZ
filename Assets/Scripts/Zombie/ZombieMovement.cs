@@ -1,17 +1,29 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.AI;
 using System.Collections;
+
+[Serializable]
+public class ZombieStats
+{
+    public float walkSpeed = 1;
+    public float pursuitSpeed = 5;
+    public float damage = 1.0f;
+    public float attackRate = 3f;
+    public float maxHealth = 3.0f;
+}
 
 public class ZombieMovement : MonoBehaviour
 {
     public enum ZombieState : short { Pursuing, Wandering, Attacking };
 
+    [SerializeField] public ZombieStats stats = new ZombieStats();
+
     [Header("State")]
     public ZombieState zombieState = ZombieState.Wandering;
 
     [Header("Movement")]
-    public float walkSpeed = 1;
-    public float pursuitSpeed = 5;
     private Transform thisTransform;
     private Transform playerPos;
     [SerializeField] private CheckPlayerNear isPlayerNear;
@@ -19,12 +31,13 @@ public class ZombieMovement : MonoBehaviour
     private Vector3 direction;
 
     [Header("Attack")]
-    public int damage = 1;
     private bool hasAttacked = false;
+    private bool playerInRange = false;
     public float attackDistance = 2f;
-    public float attackRate = 3f;
+
     public float lastAttackTime;
     private PlayerHealth playerHealth;
+    [SerializeField] private GameEvent hitPlayer;
 
     private int skinNum;
     private bool spawned = false;
@@ -48,6 +61,7 @@ public class ZombieMovement : MonoBehaviour
         playerPos = GameObject.FindObjectOfType<PlayerHealth>().gameObject.transform; //Get players transfor
         playerHealth = playerPos.gameObject.GetComponent<PlayerHealth>();
         navAgent = GetComponent<NavMeshAgent>();   //Get nav mesh
+        navAgent.enabled = false;
         health = GetComponent<ZombieHealth>();
         //navAgent.destination = pos.position;
         thisTransform = transform;
@@ -55,18 +69,26 @@ public class ZombieMovement : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("CheckState", 0.5f, 0.5f);
-        navAgent.speed = pursuitSpeed;  //Set speed when using nav mesh
+        navAgent.updateRotation = true;
+    }
+
+    private IEnumerator CheckStateCorutine()
+    {
+        while (true)
+        {
+            CheckState();
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     public void OnEnable()
     {
         isPlayerNear.isPlayerNear = false;
-        skinNum = Random.Range(0, 26);
+        skinNum = UnityEngine.Random.Range(0, 26);
         thisTransform.GetChild(skinNum).gameObject.SetActive(true); //Spawn with random zombie skin
 
         //Double check that play object isnt null
-        if(playerPos == null) playerPos = GameObject.FindObjectOfType<PlayerHealth>().gameObject.transform; //GameObject.FindWithTag("Player").transform; //Get players transfor
+        if (playerPos == null) playerPos = GameObject.FindObjectOfType<PlayerHealth>().gameObject.transform;
         if(playerHealth == null) playerHealth = playerPos.gameObject.GetComponent<PlayerHealth>();
 
         //Delay spawned state to play animation and not attack right on spawn
@@ -74,7 +96,7 @@ public class ZombieMovement : MonoBehaviour
         spawnCooldown = 1.3f;
         navAgent.enabled = false;
 
-        //invoke spawned, invoke repeating move
+        StartCoroutine(CheckStateCorutine());
     }
 
 
@@ -82,6 +104,10 @@ public class ZombieMovement : MonoBehaviour
     {
         thisTransform.GetChild(skinNum).gameObject.SetActive(false);
         isPlayerNear.isPlayerNear = false;
+        navAgent.enabled = false;
+        spawned = false;
+
+        StopCoroutine(CheckStateCorutine());
     }
 
     
@@ -89,13 +115,7 @@ public class ZombieMovement : MonoBehaviour
     public void Update()
     {
         //If the zombie is dead
-        if (!health.isAlive)
-        {   
-            //disable the nav agent to stop the body moving
-            if (navAgent.enabled) navAgent.enabled = false;
-
-            return;
-        }
+        if (!health.isAlive) return;
 
         //if just spawned and the player is within range, wait before pursuing
         if (!spawned)
@@ -103,33 +123,41 @@ public class ZombieMovement : MonoBehaviour
             spawnCooldown -= Time.deltaTime;
             if (spawnCooldown <= 0)
             {
+                health.curHealth = stats.maxHealth;
+                navAgent.speed = UnityEngine.Random.Range(stats.pursuitSpeed - 0.5f, stats.pursuitSpeed + 0.5f);
+                StartCoroutine(SetState(ZombieState.Wandering, 0f));
                 spawned = true;
             }
         }
-
-        //CheckState();
-        Move();
+        else
+        {
+            Move();
+        }       
     }
 
+
+    //Check the zombies current state and act accordingly
     private void CheckState()
     {
         if (!health.isAlive) return;
 
         switch (zombieState)
         {
+            //If the zombie is currently pursuing the player but they are out of range, change to wandering
             case ZombieState.Pursuing:
                 if (!isPlayerNear.isPlayerNear)
                     StartCoroutine(SetState(ZombieState.Wandering, 1f));
                 break;
 
+            //If the zombie is currently wandering and the player gets in range, change to pursuing
             case ZombieState.Wandering:
                 if (isPlayerNear.isPlayerNear)
                     StartCoroutine(SetState(ZombieState.Pursuing, 1f));
                 break;
 
+            //if the zombie has just attacked
             case ZombieState.Attacking:
-                if (hasAttacked == false)
-                    StartCoroutine(SetState(ZombieState.Pursuing, 0.5f));
+                StartCoroutine(SetState(ZombieState.Pursuing, 0.5f));
                 break;
 
             default:
@@ -143,10 +171,15 @@ public class ZombieMovement : MonoBehaviour
         zombieState = newState;
     }
 
+
+    //Reset zombies to a wanering state
+    public void ResetState()
+    {
+        StartCoroutine(SetState(ZombieState.Wandering, 0.1f));
+    }
+
     public void Move()
     {
-        if (!spawned) return;
-
         //If the player is within range, move towards them
         if (zombieState == ZombieState.Pursuing)
         {
@@ -158,7 +191,6 @@ public class ZombieMovement : MonoBehaviour
             }
 
             navAgent.destination = playerPos.position;
-            thisTransform.LookAt(navAgent.destination);
             return;
         }
 
@@ -179,48 +211,70 @@ public class ZombieMovement : MonoBehaviour
             {
                 ChangeDirection();
             }
-            thisTransform.position = Vector3.MoveTowards(thisTransform.position, direction, walkSpeed * Time.deltaTime);
+            thisTransform.position = Vector3.MoveTowards(thisTransform.position, direction, stats.walkSpeed * Time.deltaTime);
             thisTransform.LookAt(direction);
         }
+
     }
 
     //After set time change direction of random wander
     public void ChangeDirection()
     {
-        direction = new Vector3(thisTransform.position.x + Random.Range(-100, 100),
+        direction = new Vector3(thisTransform.position.x + UnityEngine.Random.Range(-50, 50),
                                 0,
-                                thisTransform.position.z + Random.Range(-100, 100));
-        //reset countdown to random between 5-20
-        counter = Random.Range(5, 20);
+                                thisTransform.position.z + UnityEngine.Random.Range(-50, 50));
+        //reset countdown to random between 5-10
+        counter = UnityEngine.Random.Range(5, 10);
     }
-
-    //When colliding with player attack
-    public void OnCollisionEnter(Collision other)
-    {
-        //Zombie damage
-        if (other.gameObject.CompareTag("Player") && !hasAttacked && Time.time - lastAttackTime > attackRate)
-        {
-            Attack();
-        }
-    }
-
-    private void OnCollisionStay(Collision other)
-    {
-        //Zombie damage
-        if (other.gameObject.CompareTag("Player") && !hasAttacked && Time.time - lastAttackTime > attackRate)
-        {
-            Attack();
-        }
-    }
-
-    void Attack()
+    
+    private void OnCollisionEnter(Collision other)
     {
         if (!health.isAlive) return;
 
-        zombieState = ZombieState.Attacking;
+        if (zombieState == ZombieState.Wandering && other.gameObject.layer == 0)
+            ChangeDirection();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (!playerInRange)
+                playerInRange = true;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        //If the zombie is dead, is attacking or has recently attacked, return;
+        if (!health.isAlive || hasAttacked || Time.time - lastAttackTime < stats.attackRate) return;
+
+        //try to attack player
+        if (other.gameObject.CompareTag("Player"))
+            Attack();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (playerInRange)
+                playerInRange = false;
+        }
+    }
+
+
+    void Attack()
+    {
+        //Change to attack state
+        StartCoroutine(SetState(ZombieState.Attacking, 0.0f));
         hasAttacked = true;
+
+        //Set attack animation
         anim.SetBool("Attacking_b", true);
         anim.Play("Zombie_Attacking");
+
+        //Start attack functions and record attack time
         Invoke("TryDamage", 0.26f);
         Invoke("DisableIsAttacking", 1f);
         lastAttackTime = Time.time;
@@ -228,13 +282,15 @@ public class ZombieMovement : MonoBehaviour
 
     void TryDamage()
     {
-        if (Vector3.Distance(transform.position, playerPos.position) <= attackDistance)
+        //If the player is still within range of the attack when the animation would hit, damage player
+        if (playerInRange)
         {
-            playerHealth.DamagePlayer(damage);
+            hitPlayer.Raise(this, stats.damage);
             src.PlayOneShot(attack, 0.25f);
         }
     }
 
+    //End attack
     void DisableIsAttacking()
     {
         hasAttacked = false;

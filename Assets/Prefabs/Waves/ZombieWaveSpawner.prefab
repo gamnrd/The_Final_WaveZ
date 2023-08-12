@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4489975593700571238}
   - component: {fileID: 761807296660021138}
+  - component: {fileID: 708003234595743836}
   m_Layer: 0
   m_Name: ZombieWaveSpawner
   m_TagString: Untagged
@@ -43,11 +44,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7f5237bd8f5d7469a0aa493ae79564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCountDown: 3
-  spawnTimer: 0
+  spawnCountDownMin: 2
+  spawnCountDownMax: 5
+  lastSpawnTime: 0
   spawnPos: {x: 0, y: 0, z: 0}
   layer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 385
   center: {x: 0, y: 2.5, z: 0}
   size: {x: 20, y: 5, z: 20}
+--- !u!114 &708003234595743836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4489975593700571240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58a14ae82783c743b97ccb19f121df7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: f9ec146bb7f65e64f807f927fef71adf, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 761807296660021138}
+        m_TargetAssemblyTypeName: WaveSpawner, Assembly-CSharp
+        m_MethodName: SetStats
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

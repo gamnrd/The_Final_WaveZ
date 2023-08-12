@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class PlayerHealthStats
+{
+    public float _curHealth;
+    public float _maxHealth;
+}
+
+
 public class PlayerHealth : MonoBehaviour
 {
     //Health
     [Header("Health")]
-    [SerializeField] private int curHealth;
-    [SerializeField] private int maxHealth = 10;
+    [SerializeField] private PlayerHealthStats playerHealth = new PlayerHealthStats();
+    [SerializeField] private float defence;
 
-    [Header("Lives")]
-    [SerializeField] private int curLives;
-    [SerializeField] private int maxLives = 3;
-    [SerializeField] private GameObject pauseMenu;
 
     //Damage
     [Header("Damage")]
@@ -22,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
 
     //Respawn
     [SerializeField] private bool isAlive = true;
-    private float respawnTimer = 2;
+    [SerializeField] public Transform playerBody;
 
     //Fx
     [Header("FX")]
@@ -32,27 +36,32 @@ public class PlayerHealth : MonoBehaviour
     [Header("Sound")]
     [SerializeField] private AudioClip die;
     [SerializeField] private AudioClip hurt;
-    private AudioSource src;
+    [SerializeField] private AudioSource src;
 
     //Animator
-    private PlayerAnimationController anim;
+    [SerializeField] private PlayerAnimationController anim;
+
+    [Header("Events")]
+    [SerializeField] private GameEvent onPlayerHealthChange;
+    [SerializeField] private GameEvent onPlayerDeath;
 
 
     private void Awake()
     {
-        //Get max health based on difficulty
-        maxHealth = PlayerPrefs.GetInt("PlayerHealth", 10);
-        anim = GetComponent<PlayerAnimationController>();
-        src = GetComponent<AudioSource>();
+        //Get max health based on difficulty   
+        anim = gameObject.GetComponent<PlayerAnimationController>();
+        src = gameObject.GetComponent<AudioSource>();
+        playerBody = transform.GetChild(0).transform;
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        curHealth = maxHealth;
-        curLives = maxLives;
-        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
+        playerHealth._maxHealth = PlayerDataManager.instance.data.maxHealth;
+        playerHealth._curHealth = playerHealth._maxHealth;
+        defence = PlayerDataManager.instance.data.defence;
+        onPlayerHealthChange.Raise(this, playerHealth);
     }
 
 
@@ -66,27 +75,33 @@ public class PlayerHealth : MonoBehaviour
     public void HealPlayer(int healAmount)
     {
         //raise health
-        curHealth = Mathf.Min(curHealth + healAmount, maxHealth);
-        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
+        playerHealth._curHealth = Mathf.Min(playerHealth._curHealth + healAmount, playerHealth._maxHealth);
+        onPlayerHealthChange.Raise(this, playerHealth);
     }
 
 
     //Inflict damage to the players health
-    public void DamagePlayer(int damageAmount)
+    public void DamagePlayer(Component sender, object data)
     {
-        //If the zombie is attacking, player can be hurt and player is not dead
-        if (Time.time - lastTimeHit < hitTimer || !isAlive) return;
+        if (data is float damageTaken)
+        {
+            //If the zombie is attacking, player can be hurt and player is not dead
+            if (!isAlive || Time.time - lastTimeHit < hitTimer) return;
 
-        lastTimeHit = Time.time;
-        src.PlayOneShot(hurt, 0.5f);
-        //damage player
-        curHealth = Mathf.Max(curHealth - damageAmount, 0);
-        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
+            lastTimeHit = Time.time;
+            src.PlayOneShot(hurt, 0.5f);
+            anim.PlayerHit();
 
-        //If health is zero, kill player
-        if (curHealth <= 0)
-            KillPlayer();
 
+            //damage player
+            float dmg = damageTaken - (damageTaken * (defence / 100));
+            playerHealth._curHealth = Mathf.Max(playerHealth._curHealth - dmg, 0.0f);
+            onPlayerHealthChange.Raise(this, playerHealth);
+
+            //If health is zero, kill player
+            if (playerHealth._curHealth <= 0)
+                KillPlayer();
+        }
     }
 
 
@@ -95,41 +110,35 @@ public class PlayerHealth : MonoBehaviour
     {
         //Update stats
         isAlive = false;
-        curLives--;
-        GameUI.Instance.UpdateLives(curLives);
 
         //Play death animation
         src.PlayOneShot(die, 0.7f);
         if (deathEffect != null)
             Destroy(Instantiate(deathEffect, transform.position, Quaternion.Euler(0, 0, 90)), 0.5f);
         anim.SetDead(true);
-        
-        //Check action based on lives remaining
-        if (curLives > 0)
-            Invoke("RespawnPlayer", respawnTimer);
 
-        else if (curLives <= 0)
-            GameOver();
+        onPlayerDeath.Raise();
     }
 
 
     //Respawn player
     public void RespawnPlayer()
     {
-        //Move player to last checkpoint
-        RespawnController.Instance.RespawnPlayer();
+        //Move Player to spawn location
+        transform.position = Vector3.zero;
+        playerBody.transform.localPosition = Vector3.zero;
+
         //Turn off death animation
         anim.SetDead(false);
+
         //Set alive
         isAlive = true;
-        //Reset Health
-        curHealth = maxHealth;
-        GameUI.Instance.UpdateHealthBars(curHealth, maxHealth);
-    }
 
-    public void GameOver()
-    {
-        GameOverScreen.Instance.GameOver();
-        //Time.timeScale = 0;
+        //Reset Health
+        playerHealth._curHealth = playerHealth._maxHealth;
+        onPlayerHealthChange.Raise(this, playerHealth);
+
     }
 }
+
+

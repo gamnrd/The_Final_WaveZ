@@ -77,6 +77,10 @@ public class PlayerAnimationController : MonoBehaviour
         anim.SetBool("Death_b", dead);
     }
 
+    public void PlayerHit()
+    {
+        anim.SetTrigger("Hit");
+    }
     //Adjust body tilt
     /*
     public void SetBodyVert(float bodyV)

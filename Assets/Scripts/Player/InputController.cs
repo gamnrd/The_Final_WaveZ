@@ -33,10 +33,7 @@ public class InputController : MonoBehaviour
 
     public void OnAimMouse(InputAction.CallbackContext context)
     {
-        if (platform == Platform.PC || platform == Platform.Web)
-        {
-            mouseAim = context.ReadValue<Vector2>();
-        }
+        mouseAim = context.ReadValue<Vector2>();
     }
 
     public void OnAimJoystick(InputAction.CallbackContext context)

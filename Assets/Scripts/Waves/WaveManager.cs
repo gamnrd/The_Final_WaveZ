@@ -1,46 +1,67 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[Serializable]
+public class WaveData
+{
+    public int waveNum = 1;
+    public int waveMax = 100;
+    public int spawnMax = 10;
+    public int enemiesToKill = 10;
+    public int enemiesKilled = 0;
+}
+
+
 public class WaveManager : MonoBehaviour
 {
-    public static WaveManager Instance = null;
+    public static WaveManager Instance;
 
-    [SerializeField] private int waveNum;
-    [SerializeField] public int waveMax;
-    [SerializeField] public int enemiesToKill;
-    [SerializeField] public int enemiesSpawned;
-    [SerializeField] public int spawnMax;
+    [Header("Zombie Pool")]
+    public ObjectPool zombiePool;
+    [SerializeField] int zombiePoolMax = 100;
+    [SerializeField] ZombieHealth zombiePrefab;
 
-    public TextMeshProUGUI waveTrackerText;
+    [Header("Wave Stats")]
+    [SerializeField] public WaveData waveData = new WaveData();
+    [SerializeField] int enemiesSpawned;
+    [SerializeField] ZombieStats zomStats = new ZombieStats();
 
-    private int msgTimer = 4;
-    private float timer;
-    
+    private float timeBetweenWaves = 5.0f;
+
+    [SerializeField] private GameObject healthPackPrefab;
+
+    [Header("Events")]
+    [SerializeField] GameEvent updateWaveText;
+    [SerializeField] GameEvent updateZombieStats;
+    [SerializeField] private GameEvent levelCompleated;
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
+
+        zombiePool = ObjectPool.CreateInstance(zombiePrefab, zombiePoolMax, "Zombie Pool", transform);
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        timer = msgTimer;
         FirstWave();
     }
 
     private void FirstWave()
     {
-        waveNum = 1;
-        waveMax = 10;
+        waveData.waveNum = 1;
+        waveData.waveMax = 100;
         enemiesSpawned = 0;
-        spawnMax = 10;
-        enemiesToKill = spawnMax;
-        UpdateWaveText(waveNum, enemiesToKill, spawnMax);
+        waveData.spawnMax = 10;
+        waveData.enemiesToKill = waveData.spawnMax;
+        updateWaveText.Raise(this, waveData);
     }
 
     public void EnemySpawned(int amount)
@@ -51,47 +72,65 @@ public class WaveManager : MonoBehaviour
     // Update is called once per frame
     public void ZombieKilled()
     {
-        enemiesToKill--;
-        UpdateWaveText(waveNum, enemiesToKill, spawnMax);
+        waveData.enemiesToKill--;
+        waveData.enemiesKilled++;
+        updateWaveText.Raise(this, waveData);
 
-        if (enemiesToKill <= 0)
+        if (waveData.enemiesToKill <= 0)
         {
-            EndWave();
+            Invoke("EndWave", timeBetweenWaves);
         }
-        
-    }
-
-    public void UpdateWaveText(int wave, int kills, int zombieMax)
-    {
-        waveTrackerText.text = $"Wave: {wave}\nZombies: {kills} / {zombieMax}";  
     }
 
     public bool CanSpawn()
     {
-        return enemiesSpawned < spawnMax;
+        return enemiesSpawned < waveData.spawnMax;
     }
+
+    
 
     private void EndWave()
     {
-        waveNum++;
+        waveData.waveNum++;
         enemiesSpawned = 0;
-        spawnMax += 5;
-        enemiesToKill = spawnMax;
-        UpdateWaveText(waveNum, enemiesToKill, spawnMax);
+        waveData.spawnMax += 5;
+        waveData.enemiesToKill = waveData.spawnMax;
+        updateWaveText.Raise(this, waveData);
         PlayerDataManager.instance.SaveStats();
-
-        if (waveNum > waveMax)
+        
+        //Make zombies stronger every 5 waves
+        if (waveData.waveNum % 5 == 0)
         {
+            Debug.Log("wave 5");
+            zomStats.damage += 0.5f;
+            zomStats.maxHealth += 0.5f;
+
+            updateZombieStats.Raise(this, zomStats);
+        }
+
+        if (waveData.waveNum % 10 == 0)
+        {
+            zomStats.pursuitSpeed += 1.0f;
+            Instantiate(healthPackPrefab, Vector3.zero, Quaternion.identity, transform);
+        }
+
+
+            if (waveData.waveNum > waveData.waveMax)
+        {
+            levelCompleated.Raise();
+
+
+            //PlayerDataManager.instance.UnlockLevel(GameManager.instance.levelNum);
+            
+            
+            
+            
             //wwaves complete
+            //ulock next level
+            //Victory screen
         }
         /*TODO
          * Display Wave complete message
-         * 
-         * Start timer for gap between waves
-         * 
-         * reset counts
-         * 
-         * timer ends
          * 
          * Display wave begin message 
          */

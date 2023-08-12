@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class IdleManager : MonoBehaviour
 {
@@ -16,9 +15,4 @@ public class IdleManager : MonoBehaviour
             instance = this;
     }
 
-    public void StartWave()
-    {
-        AsyncOperation playerScene = SceneManager.LoadSceneAsync("WavePlayerScene");
-        AsyncOperation worldScene = SceneManager.LoadSceneAsync("Wave_World1_Hospital", LoadSceneMode.Additive);
-    }
 }

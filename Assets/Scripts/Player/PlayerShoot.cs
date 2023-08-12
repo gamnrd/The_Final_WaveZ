@@ -9,11 +9,10 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private MeshRenderer gunFlash;
-    
 
     //Weapon Delays
-    private float lastTimeShot;
-    [SerializeField] private float fireRate = 0.25f;
+    private float lastTimeShot = 0;
+    [SerializeField] private float fireRate = 0.7f;
 
     //Sound
     [Header("Sound")]
@@ -29,14 +28,20 @@ public class PlayerShoot : MonoBehaviour
 
     private void Awake()
     {
-        bulletPool = ObjectPool.CreateInstance(bulletPrefab, 10, "Bullet Pool");
+        
         src = GetComponent<AudioSource>();
         bulletSpawnPoint = GameObject.Find("FirePoint").transform;
         playerHealth = GetComponent<PlayerHealth>();
         gunFlash = transform.Find("GunFlash").GetComponent<MeshRenderer>();
         input = GetComponent<InputController>();
+        
     }
 
+    private void Start()
+    {
+        fireRate = PlayerDataManager.instance.data.fireRate;
+        bulletPool = ObjectPool.CreateInstance(bulletPrefab, 20, "Bullet Pool", WaveManager.Instance.transform);
+    }
 
     // Update is called once per frame
     void Update()
@@ -63,7 +68,7 @@ public class PlayerShoot : MonoBehaviour
 
         if (input.platform == Platform.Mobile)
         {
-            src.PlayOneShot(shoot, 0.025f);
+            src.PlayOneShot(shoot, 0.075f);
         }
         else
         {

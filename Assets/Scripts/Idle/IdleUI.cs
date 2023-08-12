@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class IdleUI : MonoBehaviour
 {
@@ -18,6 +17,11 @@ public class IdleUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scrapsText;
     [SerializeField] private TextMeshProUGUI gasText;
     [SerializeField] private TextMeshProUGUI energyText;
+
+    [Header("Events")]
+    [SerializeField] private GameEvent loadScene;
+    [SerializeField] private GameEvent unloadScene;
+    [SerializeField] private GameEvent toggleSettingsUI;
 
     private void Awake()
     {
@@ -47,9 +51,15 @@ public class IdleUI : MonoBehaviour
         energyText.text = PlayerDataManager.instance.data.totalEnergy.ToString("n0");
     }
 
+    public void Settings()
+    {
+        toggleSettingsUI.Raise(this, true);
+    }
+
     public void Exit()
     {
-        Debug.Log("Exit Pressed");
+        loadScene.Raise(this, "MainMenu");
+        unloadScene.Raise(this, "Idle_Base");
     }
 
     public void OnExplore()

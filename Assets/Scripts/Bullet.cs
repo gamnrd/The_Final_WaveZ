@@ -7,10 +7,17 @@ public class Bullet : AutoDestroyPoolableObject
     //[SerializeField] private float lifetime;
     [SerializeField] private float bulletSpeed = 30;
     private Rigidbody rb;
+    private float damage = 1;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        
+    }
+
+    private void Start()
+    {
+        damage = PlayerDataManager.instance.data.bulletDamage;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -26,6 +33,8 @@ public class Bullet : AutoDestroyPoolableObject
                     instance.transform.localPosition = transform.position;
                     instance.transform.rotation = transform.rotation;
                 }
+
+                other.gameObject.GetComponent<ZombieHealth>().DamageEnemy(damage);
             }
             //Else spawn sparks
             else
@@ -46,6 +55,7 @@ public class Bullet : AutoDestroyPoolableObject
     public override void OnEnable()
     {
         base.OnEnable();
+
         //Move bullet
         rb.velocity = (GameObject.Find("FirePoint").GetComponent<Transform>().forward * bulletSpeed);
     }

@@ -20,8 +20,8 @@ public class ParticlePoolManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        bloodPool = ObjectPool.CreateInstance(bloodPrefab, 20, "Blood Pool");
-        sparkPool = ObjectPool.CreateInstance(sparkPrefab, 20, "Spark Pool");
-        deathPool = ObjectPool.CreateInstance(deathFXPrefab, 15, "Death Pool");
+        bloodPool = ObjectPool.CreateInstance(bloodPrefab, 20, "Blood Pool", transform);
+        sparkPool = ObjectPool.CreateInstance(sparkPrefab, 20, "Spark Pool", transform);
+        deathPool = ObjectPool.CreateInstance(deathFXPrefab, 15, "Death Pool", transform);
     }
 }

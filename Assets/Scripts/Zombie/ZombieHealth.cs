@@ -5,37 +5,41 @@ using UnityEngine.AI;
 
 public class ZombieHealth : DestroyPoolableObject
 {
-    public int totalHealth = 3;
-    private GameMode mode;
-
-    
+    [SerializeField] public float curHealth;
 
     //Sound
-    public AudioSource src;
+    [Header("Sound")]
     public AudioClip die;
-    private GameObject pool;
-    private NavMeshAgent navAgent;
-    private ZombieMovement movement;
-    private Animator anim;
 
     //Death
+    [Header("Death")]
     public bool isAlive;
-    public int cashOnKill;
-    private Rigidbody rb;
-    private CapsuleCollider col;
 
+    [Header("Components")]
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private CapsuleCollider col;
+    [SerializeField] private AudioSource src;
+    [SerializeField] private GameObject pool;
+    [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private ZombieMovement movement;
+    [SerializeField] public ZombieStats stats = new ZombieStats();
+    [SerializeField] private Animator anim;
+
+    [Header("Events")]
+    [SerializeField] private GameEvent onZombieDeath;
+
+    PoolableObject instance;
 
     private void Awake()
     {
-        pool = GameObject.Find("Zombie Pool");
-        totalHealth = PlayerPrefs.GetInt("ZombieHealth", 3);
-        navAgent = GetComponent<NavMeshAgent>();
-        movement = GetComponent<ZombieMovement>();
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-        col = GetComponent<CapsuleCollider>();
-
-        //mode = GameManager.instance.gameMode;
+        if (pool == null) pool = GameObject.Find("Zombie Pool");
+        if (navAgent == null) navAgent = GetComponent<NavMeshAgent>();
+        if (movement == null) movement = GetComponent<ZombieMovement>();
+        if (anim == null) anim = GetComponent<Animator>();
+        if (rb == null) rb = GetComponent<Rigidbody>();
+        if (col == null) col = GetComponent<CapsuleCollider>();
+        if (src == null) src = GetComponent<AudioSource>();
+        curHealth = stats.maxHealth;
     }
 
     public override void OnEnable()
@@ -45,78 +49,53 @@ public class ZombieHealth : DestroyPoolableObject
         rb.constraints = RigidbodyConstraints.None;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         col.isTrigger = false;
-
-        totalHealth = PlayerPrefs.GetInt("ZombieHealth", 3);
-        //GetComponent<ZombieMovement>().enabled = true;
         movement.enabled = true;
+
+        curHealth = stats.maxHealth;
+
         base.OnEnable();
     }
     public override void OnDisable()
     {
         isAlive = false;
         Invoke("MoveToPool", 0.1f);
-        //GetComponent<ZombieMovement>().enabled = false;
         movement.enabled = false;
         base.OnDisable();
     }
 
-
-
-    private void OnCollisionEnter(Collision other)
-    {
-        //Zombie damage
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            //damage zombie
-            DamageEnemy(1);
-        }
-    }
-
-
     //Zombie takes damage
-    public void DamageEnemy(int damageAmount)
+    public void DamageEnemy(float damageAmount)
     {
         if (!isAlive) return;
 
-        totalHealth -= damageAmount;
+        curHealth -= damageAmount;
+        anim.SetTrigger("Hit");
+
         //If health is zero, kill zombie
-        if (totalHealth <= 0)
+        if (curHealth <= 0)
         {
+            onZombieDeath.Raise();
             isAlive = false;
-            rb.constraints = RigidbodyConstraints.FreezePosition;
+            if (navAgent.enabled) navAgent.enabled = false;
+            //Disable collision so body falls thru the floor
             col.isTrigger = true;
 
-
-            //movement.enabled = false;
             anim.SetTrigger("Dead");
             src.PlayOneShot(die, 0.7f);
 
-
-            //TODO
-            //PlayerStats.instance.AddCash(cashOnKill);
-            GameUI.Instance.UpdateCashText(PlayerDataManager.instance.data.totalCash);
-            PlayerDataManager.instance.AddResource(ResourceType.Cash, cashOnKill);
-
-
-            if (GameManager.instance.gameMode == GameMode.Wave)
-            {
-                WaveZombieCounter.Instance.DecrementCount();
-                WaveManager.Instance.ZombieKilled();
-            }
-            PoolableObject instance = ParticlePoolManager.instance.deathPool.GetObject();
+            //Spawn particle death effect
+            instance = ParticlePoolManager.instance.deathPool.GetObject();
             if (instance != null)
             {
                 instance.transform.localPosition = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
                 instance.transform.localRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, 90f);
             }
 
-
-
             Invoke("Disable", 1.5f);
-            //Disable();
         }
     }
 
+    //Return zombie to the object pool
     public void MoveToPool()
     {
         transform.SetParent(pool.transform);
